@@ -1,0 +1,127 @@
+    Phaedo
+
+    By Plato
+
+    Written 360 B.C.E
+
+    Translated by Benjamin Jowett
+
+    Persons of the Dialogue
+    PHAEDO, who is the narrator of the dialogue to ECHECRATES of Phlius
+    SOCRATES
+    APOLLODORUS
+    SIMMIAS
+    CEBES
+    CRITO
+    ATTENDANT OF THE PRISON
+    Scene
+    The Prison of Socrates.
+
+
+    Place OF THE NARRATION: Phlius.
+
+    Echecrates. Were you yourself, Phaedo, in the prison with Socrates on the day when he drank the poison?
+
+    Phaedo. Yes, Echecrates, I was.
+
+    Ech. I wish that you would tell me about his death. What did he say in his last hours? We were informed that he died by taking poison, but no one knew anything more; for no Phliasian ever goes to Athens now, and a long time has elapsed since any Athenian found his way to Phlius, and therefore we had no clear account.
+
+    Phaed. Did you not hear of the proceedings at the trial?
+
+    Ech. Yes; someone told us about the trial, and we could not understand why, having been condemned, he was put to death, as appeared, not at the time, but long afterwards. What was the reason of this?
+
+    Phaed. An accident, Echecrates. The reason was that the stern of the ship which the Athenians send to Delos happened to have been crowned on the day before he was tried.
+
+    Ech. What is this ship?
+
+    Phaed. This is the ship in which, as the Athenians say, Theseus went to Crete when he took with him the fourteen youths, and was the saviour of them and of himself. And they were said to have vowed to Apollo at the time, that if they were saved they would make an annual pilgrimage to Delos. Now this custom still continues, and the whole period of the voyage to and from Delos, beginning when the priest of Apollo crowns the stern of the ship, is a holy season, during which the city is not allowed to be polluted by public executions; and often, when the vessel is detained by adverse winds, there may be a very considerable delay. As I was saying, the ship was crowned on the day before the trial, and this was the reason why Socrates lay in prison and was not put to death until long after he was condemned.
+
+    Ech. What was the manner of his death, Phaedo? What was said or done? And which of his friends had he with him? Or were they not allowed by the authorities to be present? And did he die alone?
+
+    Phaed. No; there were several of his friends with him.
+
+    Ech. If you have nothing to do, I wish that you would tell me what passed, as exactly as you can.
+
+    Phaed. I have nothing to do, and will try to gratify your wish. For to me, too, there is no greater pleasure than to have Socrates brought to my recollection, whether I speak myself or hear another speak of him.
+
+    Ech. You will have listeners who are of the same mind with you, and I hope that you will be as exact as you can.
+
+    Phaed. I remember the strange feeling which came over me at being with him. For I could hardly believe that I was present at the death of a friend, and therefore I did not pity him, Echecrates; his mien and his language were so noble and fearless in the hour of death that to me he appeared blessed. I thought that in going to the other world he could not be without a divine call, and that he would be happy, if any man ever was, when he arrived there, and therefore I did not pity him as might seem natural at such a time. But neither could I feel the pleasure which I usually felt in philosophical discourse (for philosophy was the theme of which we spoke). I was pleased, and I was also pained, because I knew that he was soon to die, and this strange mixture of feeling was shared by us all; we were laughing and weeping by turns, especially the excitable Apollodorus-you know the sort of man?
+
+    Ech. Yes.
+
+    Phaed. He was quite overcome; and I myself and all of us were greatly moved.
+
+    Ech. Who were present?
+
+    Phaed. Of native Athenians there were, besides Apollodorus, Critobulus and his father Crito, Hermogenes, Epigenes, Aeschines, and Antisthenes; likewise Ctesippus of the deme of Paeania, Menexenus, and some others; but Plato, if I am not mistaken, was ill.
+
+    Ech. Were there any strangers?
+
+    Phaed. Yes, there were; Simmias the Theban, and Cebes, and Phaedondes; Euclid and Terpison, who came from Megara.
+
+    Ech. And was Aristippus there, and Cleombrotus?
+
+    Phaed. No, they were said to be in Aegina.
+
+    Ech. Anyone else?
+
+    Phaed. I think that these were about all.
+
+    Ech. And what was the discourse of which you spoke?
+
+    Phaed. I will begin at the beginning, and endeavor to repeat the entire conversation. You must understand that we had been previously in the habit of assembling early in the morning at the court in which the trial was held, and which is not far from the prison. There we remained talking with one another until the opening of the prison doors (for they were not opened very early), and then went in and generally passed the day with Socrates. On the last morning the meeting was earlier than usual; this was owing to our having heard on the previous evening that the sacred ship had arrived from Delos, and therefore we agreed to meet very early at the accustomed place. On our going to the prison, the jailer who answered the door, instead of admitting us, came out and bade us wait and he would call us. "For the Eleven," he said, "are now with Socrates; they are taking off his chains, and giving orders that he is to die to-day." He soon returned and said that we might come in. On entering we found Socrates just released from chains, and Xanthippe, whom you know, sitting by him, and holding his child in her arms. When she saw us she uttered a cry and said, as women will: "O Socrates, this is the last time that either you will converse with your friends, or they with you." Socrates turned to Crito and said: "Crito, let someone take her home." Some of Crito's people accordingly led her away, crying out and beating herself. And when she was gone, Socrates, sitting up on the couch, began to bend and rub his leg, saying, as he rubbed: "How singular is the thing called pleasure, and how curiously related to pain, which might be thought to be the opposite of it; for they never come to a man together, and yet he who pursues either of them is generally compelled to take the other. They are two, and yet they grow together out of one head or stem; and I cannot help thinking that if Aesop had noticed them, he would have made a fable about God trying to reconcile their strife, and when he could not, he fastened their heads together; and this is the reason why when one comes the other follows, as I find in my own case pleasure comes following after the pain in my leg, which was caused by the chain."
+
+    Upon this Cebes said: I am very glad indeed, Socrates, that you mentioned the name of Aesop. For that reminds me of a question which has been asked by others, and was asked of me only the day before yesterday by Evenus the poet, and as he will be sure to ask again, you may as well tell me what I should say to him, if you would like him to have an answer. He wanted to know why you who never before wrote a line of poetry, now that you are in prison are putting Aesop into verse, and also composing that hymn in honor of Apollo.
+
+    Tell him, Cebes, he replied, that I had no idea of rivalling him or his poems; which is the truth, for I knew that I could not do that. But I wanted to see whether I could purge away a scruple which I felt about certain dreams. In the course of my life I have often had intimations in dreams "that I should make music." The same dream came to me sometimes in one form, and sometimes in another, but always saying the same or nearly the same words: Make and cultivate music, said the dream. And hitherto I had imagined that this was only intended to exhort and encourage me in the study of philosophy, which has always been the pursuit of my life, and is the noblest and best of music. The dream was bidding me to do what I was already doing, in the same way that the competitor in a race is bidden by the spectators to run when he is already running. But I was not certain of this, as the dream might have meant music in the popular sense of the word, and being under sentence of death, and the festival giving me a respite, I thought that I should be safer if I satisfied the scruple, and, in obedience to the dream, composed a few verses before I departed. And first I made a hymn in honor of the god of the festival, and then considering that a poet, if he is really to be a poet or maker, should not only put words together but make stories, and as I have no invention, I took some fables of esop, which I had ready at hand and knew, and turned them into verse. Tell Evenus this, and bid him be of good cheer; that I would have him come after me if he be a wise man, and not tarry; and that to-day I am likely to be going, for the Athenians say that I must.
+
+    Simmias said: What a message for such a man! having been a frequent companion of his, I should say that, as far as I know him, he will never take your advice unless he is obliged.
+
+    Why, said Socrates,-is not Evenus a philosopher?
+    I think that he is, said Simmias.
+    Then he, or any man who has the spirit of philosophy, will be willing to die, though he will not take his own life, for that is held not to be right.
+
+    Here he changed his position, and put his legs off the couch on to the ground, and during the rest of the conversation he remained sitting.
+
+    Why do you say, inquired Cebes, that a man ought not to take his own life, but that the philosopher will be ready to follow the dying?
+
+    Socrates replied: And have you, Cebes and Simmias, who are acquainted with Philolaus, never heard him speak of this?
+
+    I never understood him, Socrates.
+    My words, too, are only an echo; but I am very willing to say what I have heard: and indeed, as I am going to another place, I ought to be thinking and talking of the nature of the pilgrimage which I am about to make. What can I do better in the interval between this and the setting of the sun?
+
+    Then tell me, Socrates, why is suicide held not to be right? as I have certainly heard Philolaus affirm when he was staying with us at Thebes: and there are others who say the same, although none of them has ever made me understand him.
+
+    But do your best, replied Socrates, and the day may come when you will understand. I suppose that you wonder why, as most things which are evil may be accidentally good, this is to be the only exception (for may not death, too, be better than life in some cases?), and why, when a man is better dead, he is not permitted to be his own benefactor, but must wait for the hand of another.
+
+    By Jupiter! yes, indeed, said Cebes, laughing, and speaking in his native Doric.
+
+    I admit the appearance of inconsistency, replied Socrates, but there may not be any real inconsistency after all in this. There is a doctrine uttered in secret that man is a prisoner who has no right to open the door of his prison and run away; this is a great mystery which I do not quite understand. Yet I, too, believe that the gods are our guardians, and that we are a possession of theirs. Do you not agree?
+
+    Yes, I agree to that, said Cebes.
+    And if one of your own possessions, an ox or an ass, for example took the liberty of putting himself out of the way when you had given no intimation of your wish that he should die, would you not be angry with him, and would you not punish him if you could?
+
+    Certainly, replied Cebes.
+    Then there may be reason in saying that a man should wait, and not take his own life until God summons him, as he is now summoning me.
+
+    Yes, Socrates, said Cebes, there is surely reason in that. And yet how can you reconcile this seemingly true belief that God is our guardian and we his possessions, with that willingness to die which we were attributing to the philosopher? That the wisest of men should be willing to leave this service in which they are ruled by the gods who are the best of rulers is not reasonable, for surely no wise man thinks that when set at liberty he can take better care of himself than the gods take of him. A fool may perhaps think this-he may argue that he had better run away from his master, not considering that his duty is to remain to the end, and not to run away from the good, and that there is no sense in his running away. But the wise man will want to be ever with him who is better than himself. Now this, Socrates, is the reverse of what was just now said; for upon this view the wise man should sorrow and the fool rejoice at passing out of life.
+
+    The earnestness of Cebes seemed to please Socrates. Here, said he, turning to us, is a man who is always inquiring, and is not to be convinced all in a moment, nor by every argument.
+
+    And in this case, added Simmias, his objection does appear to me to have some force. For what can be the meaning of a truly wise man wanting to fly away and lightly leave a master who is better than himself? And I rather imagine that Cebes is referring to you; he thinks that you are too ready to leave us, and too ready to leave the gods who, as you acknowledge, are our good rulers.
+
+    Yes, replied Socrates; there is reason in that. And this indictment you think that I ought to answer as if I were in court?
+
+    That is what we should like, said Simmias.
+    Then I must try to make a better impression upon you than I did when defending myself before the judges. For I am quite ready to acknowledge, Simmias and Cebes, that I ought to be grieved at death, if I were not persuaded that I am going to other gods who are wise and good (of this I am as certain as I can be of anything of the sort) and to men departed (though I am not so certain of this), who are better than those whom I leave behind; and therefore I do not grieve as I might have done, for I have good hope that there is yet something remaining for the dead, and, as has been said of old, some far better thing for the good than for the evil.
+
+    But do you mean to take away your thoughts with you, Socrates? said Simmias. Will you not communicate them to us?-the benefit is one in which we too may hope to share. Moreover, if you succeed in convincing us, that will be an answer to the charge against yourself.
+
+    I will do my best, replied Socrates. But you must first let me hear what Crito wants; he was going to say something to me.
+
+    Only this, Socrates, replied Crito: the attendant who is to give you the poison has been telling me that you are not to talk much, and he wants me to let you know this; for that by talking heat is increased, and this interferes with the action of the poison; those who excite themselves are sometimes obliged to drink the poison two or three times.
+
+    Then, said Socrates, let him mind his business and be prepared to give the poison two or three times, if necessary; that is all.
+
+    I was almost certain that you would say that, replied Crito; but I was obliged to satisfy him. 
