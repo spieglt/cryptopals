@@ -1,20 +1,16 @@
 mod utils;
 
 // set 1
-mod ex1;  mod ex2;
-mod ex3;  mod ex4;
-mod ex5;  mod ex6;
-mod ex7;  mod ex8;
+mod set1;
+use set1::*;
 
 // set 2
-mod ex9;  mod ex10;
-mod ex11; mod ex12;
-mod ex13; mod ex14;
-mod ex15; mod ex16;
+mod set2;
+use set2::*;
 
 // set 3
-mod ex17; mod ex18;
-mod ex19; mod ex20;
+mod set3;
+use set3::*;
 
 extern crate aes;
 extern crate block_modes;
