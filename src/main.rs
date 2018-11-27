@@ -169,20 +169,23 @@ fn set_two() {
 
 fn set_three() {
 
-	// ex17
-	println!("\nex17:");
-	ex17::cbc_padding_oracle();
+	// // ex17
+	// println!("\nex17:");
+	// ex17::cbc_padding_oracle();
 
-	// ex18
-	println!("\nex18:");
-	ex18::decrypt_string();
+	// // ex18
+	// println!("\nex18:");
+	// ex18::decrypt_string();
 
-	// ex19
-	println!("\nex19:");
-	ex19::break_fixed_nonce_using_substitutions();
+	// // ex19
+	// println!("\nex19:");
+	// ex19::break_fixed_nonce_using_substitutions();
 
-	// ex20
-	println!("\nex20:");
-	ex20::break_fixed_nonce_ctr_statistically();
+	// // ex20
+	// println!("\nex20:");
+	// ex20::break_fixed_nonce_ctr_statistically();
 	
+	// ex21
+	println!("\nex21:");
+	ex21::mersenne_twister_prng();
 }
