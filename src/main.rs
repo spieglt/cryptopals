@@ -187,5 +187,8 @@ fn set_three() {
 	
 	// ex21
 	println!("\nex21:");
-	ex21::mersenne_twister_prng();
+	let mut twister = ex21::MtPrng::new();
+	twister.mt = [99; 624];
+	twister.seed_mt(2);
+	println!("{:?}", twister.mt.to_vec());
 }
