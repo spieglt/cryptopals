@@ -28,7 +28,7 @@ fn main() {
 			_ => (),
 		}
 	}
-	set_three();
+	current_exercise();
 }
 
 fn set_one() {
@@ -169,26 +169,39 @@ fn set_two() {
 
 fn set_three() {
 
-	// // ex17
-	// println!("\nex17:");
-	// ex17::cbc_padding_oracle();
+	// ex17
+	println!("\nex17:");
+	ex17::cbc_padding_oracle();
 
-	// // ex18
-	// println!("\nex18:");
-	// ex18::decrypt_string();
+	// ex18
+	println!("\nex18:");
+	ex18::decrypt_string();
 
-	// // ex19
-	// println!("\nex19:");
-	// ex19::break_fixed_nonce_using_substitutions();
+	// ex19
+	println!("\nex19:");
+	ex19::break_fixed_nonce_using_substitutions();
 
-	// // ex20
-	// println!("\nex20:");
-	// ex20::break_fixed_nonce_ctr_statistically();
-	
+	// ex20
+	println!("\nex20:");
+	ex20::break_fixed_nonce_ctr_statistically();
+
+}
+
+fn current_exercise() {
+
 	// ex21
 	println!("\nex21:");
 	let mut twister = ex21::MtPrng::new();
-	twister.mt = [99; 624];
-	twister.seed_mt(2);
-	println!("{:?}", twister.mt.to_vec());
+	twister.seed_mt(5489);
+	
+	// http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
+	
+	// println!("pre-twist:	{:?}", &twister.mt.to_vec()[..10]);
+	// println!("{}", twister.extract_number().unwrap());
+	// println!("post-twist:	{:?}", &twister.mt.to_vec()[..10]);
+	for x in 0..50 {
+		println!("{}", twister.extract_number().unwrap());	
+	}
+
+
 }

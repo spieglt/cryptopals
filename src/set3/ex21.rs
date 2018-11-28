@@ -73,23 +73,23 @@ const int upper_mask = lowest w bits of (not lower_mask)
 */
 
 pub struct MtPrng {
-	pub w: i64,
-	pub n: i64,
-	pub m: i64,
-	pub r: i64,
-	pub a: i64,
-	pub u: i64,
-	pub d: i64,
-	pub s: i64,
-	pub b: i64,
-	pub t: i64,
-	pub c: i64,
-	pub l: i64,
-	pub f: i64,
-	pub index: i64,
-	pub lower_mask: i64,
-	pub upper_mask: i64,
-	pub mt: [i64; 624] // len n
+	pub w: u64,
+	pub n: u64,
+	pub m: u64,
+	pub r: u64,
+	pub a: u64,
+	pub u: u64,
+	pub d: u64,
+	pub s: u64,
+	pub b: u64,
+	pub t: u64,
+	pub c: u64,
+	pub l: u64,
+	pub f: u64,
+	pub index: u64,
+	pub lower_mask: u64,
+	pub upper_mask: u64,
+	pub mt: [u64; 624] // len n
 }
 
 impl MtPrng {
@@ -99,9 +99,10 @@ impl MtPrng {
 		let r = 31;
 		let mt = [0; 624];
 		let index = n + 1;
-		let lower_mask = (1 << r) - 1_i64;
+		let lower_mask = (1 << r) - 1u64;
 		println!("lower mask: {:032b}", lower_mask);
-		let upper_mask = !lower_mask & ((1 << w) - 1);
+		let upper_mask = !lower_mask & ((1 << w) - 1u64);
+		// let upper_mask = !lower_mask & std::u64::MAX;
 		println!("upper mask: {:032b}", upper_mask);
 
 		MtPrng {
@@ -125,16 +126,42 @@ impl MtPrng {
 		}
 	}
 
-	pub fn seed_mt(&mut self, seed: i64) {
-	// 	 index := n
-	// MT[0] := seed
-	// for i from 1 to (n - 1) { // loop over each element
-	//		MT[i] := lowest w bits of (f * (MT[i-1] xor (MT[i-1] >> (w-2))) + i)
-	// }
+	pub fn seed_mt(&mut self, seed: u64) {
 		self.index = self.n;
 		self.mt[0] = seed;
 		for i in 1..self.mt.len() {
+			// std::u64::MAX problem but also multiplication past u64 problem
 			self.mt[i] = (self.f * (self.mt[i-1] ^ (self.mt[i-1] >> (self.w - 2)))) & ((1 << self.w) - 1)
 		}
+	}
+
+	pub fn extract_number(&mut self) -> Result<u64, String> {
+		if self.index >= self.n {
+			if self.index > self.n {
+				return Err("generator was never seeded".to_string());
+			}
+			self.twist()
+		}
+		let mut y = self.mt[self.index as usize];
+		y ^= (y >> self.u) & self.d;
+		y ^= (y << self.s) & self.b;
+		y ^= (y << self.t) & self.c;
+		y ^= y >> self.l;
+
+		self.index += 1;
+		Ok(y & ((1 << self.w) - 1))
+	}
+
+	pub fn twist(&mut self) {
+		for _i in 0..self.n {
+			let i = _i as usize;
+			let x = (self.mt[i] & self.upper_mask) + (self.mt[(i + 1) % self.n as usize] & self.lower_mask);
+			let mut x_a = x >> 1;
+			if x % 2 != 0 {
+				x_a ^= self.a;
+			}
+			self.mt[i] = self.mt[(i + self.m as usize) % self.n as usize] ^ x_a;
+		}
+		self.index = 0;
 	}
 }
