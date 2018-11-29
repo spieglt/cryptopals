@@ -170,6 +170,45 @@ impl MtPrng {
 		}
 		self.index = 0;
 	}
+
+	pub fn seed_by_array(&mut self, init_key: &[u64]) {
+		let key_length = init_key.len();
+		self.seed_mt(19650218);
+		let (mut i, mut j) = (1, 0);
+		let mut k = match self.n as usize > key_length {
+			true => self.n as usize,
+			false => key_length,
+		};
+		while k > 0 {
+			self.mt[i] = (self.mt[i] ^ ((self.mt[i-1] ^ (self.mt[i-1] >> 30)) * 1664525))
+				+ init_key[j] + j as u64;
+			self.mt[i] &= self.d;
+			i += 1; j += 1;
+			if i >= self.n as usize {
+				self.mt[0] = self.mt[self.n as usize - 1];
+				i = 1;
+			}
+			if j >= key_length {
+				j = 0;
+			}
+			k -=1;
+		}
+
+		k = self.n as usize - 1;
+		while k > 0 {
+			self.mt[i] = (self.mt[i] ^ ((self.mt[i-1] ^ (self.mt[i-1] >> 30)) * 1566083941))
+				- i as u64;
+			self.mt[i] &= self.d;
+			i += 1;
+			if i >= self.n as usize {
+				self.mt[0] = self.mt[self.n as usize - 1];
+				i = 1;
+			}
+			k -= 1;
+		}
+
+		self.mt[0] = self.upper_mask;
+	}
 }
 
 pub struct CMtPrng {

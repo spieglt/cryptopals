@@ -192,9 +192,12 @@ fn current_exercise() {
 	// ex21
 	println!("\nex21:");
 	let mut twister = ex21::MtPrng::new();
-	twister.seed_mt(5489);
-	let mut c_twister = ex21::CMtPrng::new();
-	c_twister.seed_mt(5489);
+	
+	// NOT THE REAL TEST SEED DAMN IT
+	// twister.seed_mt(5489);
+	// let mut c_twister = ex21::CMtPrng::new();
+	// c_twister.seed_mt(5489);
+	twister.seed_by_array(&[0x123u64, 0x234, 0x345, 0x456]);
 	
 	// http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
 	
@@ -204,6 +207,6 @@ fn current_exercise() {
 	for _ in 0..50 {
 		let x = twister.extract_number().unwrap();
 		println!("{}", x);
-		assert!(x == c_twister.extract_number().unwrap());
+		// assert!(x == c_twister.extract_number().unwrap());
 	}
 }
