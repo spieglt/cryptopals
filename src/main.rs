@@ -193,15 +193,17 @@ fn current_exercise() {
 	println!("\nex21:");
 	let mut twister = ex21::MtPrng::new();
 	twister.seed_mt(5489);
+	let mut c_twister = ex21::CMtPrng::new();
+	c_twister.seed_mt(5489);
 	
 	// http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
 	
 	// println!("pre-twist:	{:?}", &twister.mt.to_vec()[..10]);
 	// println!("{}", twister.extract_number().unwrap());
 	// println!("post-twist:	{:?}", &twister.mt.to_vec()[..10]);
-	for x in 0..50 {
-		println!("{}", twister.extract_number().unwrap());	
+	for _ in 0..50 {
+		let x = twister.extract_number().unwrap();
+		println!("{}", x);
+		assert!(x == c_twister.extract_number().unwrap());
 	}
-
-
 }
