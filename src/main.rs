@@ -199,8 +199,8 @@ fn current_exercise() {
 	println!("\nex21:");
 	let mut twister = ex21::MtPrng::new();
 	
-	twister.seed_mt(5489);
-	// twister.seed_by_array(&[0x123u32, 0x234, 0x345, 0x456]);
+	// twister.seed_mt(5489);
+	twister.seed_by_array(&[0x123u32, 0x234, 0x345, 0x456]);
 	
 	for _ in 0..50 {
 		let x = twister.extract_number().unwrap();

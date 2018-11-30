@@ -136,8 +136,8 @@ impl MtPrng {
 								(self.mt[i-1] ^ 
 									(self.mt[i-1] >> (self.w - 2))
 								)
-								+ i as u32
 							)
+							+ i as u32
 						);
 			// self.mt[i] &= self.d;
 		}
