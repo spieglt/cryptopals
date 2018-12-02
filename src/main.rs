@@ -185,25 +185,13 @@ fn set_three() {
 	println!("\nex20:");
 	ex20::break_fixed_nonce_ctr_statistically();
 
+	// ex21
+	println!("\nex21:");
+	ex21::test_mersenne_twister_prng();
 }
 
 fn current_exercise() {
 
-	// mine doesn't twist when it's seeded, right? if in i32 seed mode?
-	// correct: new sets it up with blank state, seed_mt inputs seed and rest but doesn't twist.
-	// it doesn't twist until extract_number is called.
-
-	
-
-	// ex21
-	println!("\nex21:");
-	let mut twister = ex21::MtPrng::new();
-	
-	// twister.seed_mt(5489);
-	twister.seed_by_array(&[0x123u32, 0x234, 0x345, 0x456]);
-	
-	for _ in 0..50 {
-		let x = twister.extract_number().unwrap();
-		println!("{}", x);
-	}
+	println!("\nex22:");
+	ex22::crack_mt19937_seed();
 }

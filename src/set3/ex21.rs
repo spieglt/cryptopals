@@ -132,13 +132,9 @@ impl MtPrng {
 		for _i in 1..self.n {
 			let i = _i as usize;
 			self.mt[i] = self.d & (
-							(self.f).wrapping_mul( 
-								(self.mt[i-1] ^ 
-									(self.mt[i-1] >> (self.w - 2))
-								)
-							)
-							+ i as u32
-						);
+				(self.f).wrapping_mul( 
+					(self.mt[i-1] ^ (self.mt[i-1] >> (self.w - 2))))
+				+ i as u32);
 			// self.mt[i] &= self.d;
 		}
 	}
@@ -234,6 +230,17 @@ impl MtPrng {
 		}
 
 		self.mt[0] = self.upper_mask;
+	}
+}
+
+pub fn test_mersenne_twister_prng() {
+	let mut twister = MtPrng::new();
+	// twister.seed_mt(5489);
+	twister.seed_by_array(&[0x123u32, 0x234, 0x345, 0x456]);
+	
+	for _ in 0..50 {
+		let x = twister.extract_number().unwrap();
+		println!("{}", x);
 	}
 }
 
