@@ -17,6 +17,20 @@ From the 32 bit RNG output, discover the seed.
 
 */
 
+use set3::ex21;
+
+use rand::Rng;
+use std::time::{Duration, SystemTime};
+
 pub fn crack_mt19937_seed() {
-	
+	let mut twister = ex21::MtPrng::new();
+
+	for i in 0..10 {
+		let time = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).expect("could not get time");
+		let seed_time = time + Duration::from_secs(rand::thread_rng().gen_range(40,1000));
+		let sts = seed_time.as_secs() as u32;
+		twister.seed_mt(sts);
+		let output_time = seed_time + Duration::from_secs(rand::thread_rng().gen_range(40,1000));
+		println!("first number: 	{}", twister.extract_number().unwrap());
+	}
 }
