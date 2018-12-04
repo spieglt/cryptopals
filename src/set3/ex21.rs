@@ -132,7 +132,7 @@ impl MtPrng {
 			self.mt[i] = self.d & (
 				(self.f).wrapping_mul( 
 					self.mt[i-1] ^ (self.mt[i-1] >> (self.w - 2)))
-				+ i as u32);
+						.wrapping_add(i as u32));
 			// self.mt[i] &= self.d;
 		}
 	}

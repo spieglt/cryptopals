@@ -25,15 +25,30 @@ use set3::ex21;
 use rand::Rng;
 use std::time::{Duration, SystemTime};
 
-pub fn crack_mt19937_seed() {
+fn seed_with_timestamp_and_generate() -> u32 {
 	let mut twister = ex21::MtPrng::new();
+	let time = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).expect("could not get time");
+	let seed_time = time + Duration::from_secs(rand::thread_rng().gen_range(40,1000));
+	let sts = seed_time.as_secs() as u32;
+	twister.seed_mt(sts);
+	let _output_time = seed_time + Duration::from_secs(rand::thread_rng().gen_range(40,1000));
+	twister.extract_number().expect("could not generate random number")	
+}
 
-	for _ in 0..10 {
-		let time = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).expect("could not get time");
-		let seed_time = time + Duration::from_secs(rand::thread_rng().gen_range(40,1000));
-		let sts = seed_time.as_secs() as u32;
-		twister.seed_mt(sts);
-		let _output_time = seed_time + Duration::from_secs(rand::thread_rng().gen_range(40,1000));
-		println!("first number: 	{}", twister.extract_number().unwrap());
+pub fn crack_mt19937_seed() {
+	let sample = seed_with_timestamp_and_generate();
+	println!("sample: {}", sample);
+	let mut future_time = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).expect("could not get time").as_secs() as u32 + 4000;
+	let mut twister = ex21::MtPrng::new();
+	let min_time = future_time - 10_000;
+
+	while future_time > min_time {
+		twister.seed_mt(future_time);
+		if twister.extract_number().expect("could not generate random number") == sample {
+			println!("seed: {}", future_time);
+			return;
+		}
+		future_time -= 1;
 	}
+	println!("did not find seed");
 }
