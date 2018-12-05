@@ -188,10 +188,13 @@ fn set_three() {
 	// ex21
 	println!("\nex21:");
 	ex21::test_mersenne_twister_prng();
+
+	// ex22
+	println!("\nex22:");
+	ex22::crack_mt19937_seed();
 }
 
 fn current_exercise() {
-
-	println!("\nex22:");
-	ex22::crack_mt19937_seed();
+	println!("\nex23:");
+	ex23::clone_mt19947_prng();
 }

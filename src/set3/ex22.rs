@@ -31,8 +31,8 @@ fn seed_with_timestamp_and_generate() -> u32 {
 	let seed_time = time + Duration::from_secs(rand::thread_rng().gen_range(40,1000));
 	let sts = seed_time.as_secs() as u32;
 	twister.seed_mt(sts);
-	let _output_time = seed_time + Duration::from_secs(rand::thread_rng().gen_range(40,1000));
-	twister.extract_number().expect("could not generate random number")	
+	seed_time + Duration::from_secs(rand::thread_rng().gen_range(40,1000));
+	twister.extract_number().expect("could not generate random number")
 }
 
 pub fn crack_mt19937_seed() {
