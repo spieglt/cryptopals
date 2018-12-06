@@ -145,7 +145,7 @@ impl MtPrng {
 			self.twist();
 		}
 		let mut y = self.mt[self.index as usize];
-		y ^= (y >> self.u) & self.d;
+		y ^= y >> self.u;
 		y ^= (y << self.s) & self.b;
 		y ^= (y << self.t) & self.c;
 		y ^= y >> self.l;

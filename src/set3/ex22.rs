@@ -22,16 +22,16 @@ From the 32 bit RNG output, discover the seed.
 
 use set3::ex21;
 
-use rand::Rng;
+use rand::{Rng, thread_rng};
 use std::time::{Duration, SystemTime};
 
 fn seed_with_timestamp_and_generate() -> u32 {
 	let mut twister = ex21::MtPrng::new();
 	let time = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).expect("could not get time");
-	let seed_time = time + Duration::from_secs(rand::thread_rng().gen_range(40,1000));
+	let seed_time = time + Duration::from_secs(thread_rng().gen_range(40,1000));
 	let sts = seed_time.as_secs() as u32;
 	twister.seed_mt(sts);
-	seed_time + Duration::from_secs(rand::thread_rng().gen_range(40,1000));
+	seed_time + Duration::from_secs(thread_rng().gen_range(40,1000));
 	twister.extract_number().expect("could not generate random number")
 }
 
