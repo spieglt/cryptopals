@@ -87,7 +87,7 @@ mod tests {
 		mt.seed_mt(3210952839);
 		let mut test_vec = vec![];
 		for _ in 0..1000 {
-			let mut temp_val = mt.extract_number().unwrap();
+			let temp_val = mt.extract_number().unwrap();
 			test_vec.push(temp_val);
 		}
 		println!("{:?}", test_vec);

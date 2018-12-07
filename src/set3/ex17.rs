@@ -110,7 +110,7 @@ pub fn cbc_padding_oracle() {
 		let mut padding_producing_bytes = vec![];
 		// for each byte of the block
 		for byte_num in 0..16 {
-			let mut current_block = ciphertext[block_num*16..(block_num+1)*16].to_vec();
+			let current_block = ciphertext[block_num*16..(block_num+1)*16].to_vec();
 			let mut previous_block = match block_num {
 				0 => iv.to_vec(),
 				_ => ciphertext[(block_num-1)*16..block_num*16].to_vec(),

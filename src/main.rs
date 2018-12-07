@@ -130,7 +130,7 @@ fn set_two() {
 	for f in files.iter() {
 		println!("file: {}", f);
 		for _ in 0..4 {
-			let mut file = utils::read_file(f);
+			let file = utils::read_file(f);
 			let encrypted = ex11::encrypt_randomly(&file);
 			let d = if ex8::detect_aes128ecb(&encrypted) { "ECB" } else { "CBC" };
 			println!("detected: {}", d);

@@ -17,7 +17,7 @@ You now have our permission to make "ETAOIN SHRDLU" jokes on Twitter.
 
 */
 
-use crate::utils::score_characters;
+use crate::utils;
 use std::cmp::Ordering;
 
 #[derive(Debug)]
@@ -59,7 +59,7 @@ pub fn single_byte_xor(digits: &Vec<u8>, top_n: usize) -> Vec<XorResult> {
 		// xor value, score, string
 		scored_results.push(XorResult{
 			value:			i,
-			score:			score_characters(s),
+			score:			utils::score_characters(s),
 			result_string:	s.to_vec()
 		});
 	}

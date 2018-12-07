@@ -45,7 +45,7 @@ mod tests {
 	#[test]
 	fn test_strip_padding() {
 		for i in 0..32 {
-			let mut inp = vec![b'A'; i];
+			let inp = vec![b'A'; i];
 			let padded = ex9::pkcs7_padding(inp.as_slice(), 16);
 			let stripped = strip_padding(&padded).unwrap();
 			assert!(inp == stripped);

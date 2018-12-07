@@ -37,8 +37,8 @@ We get more tech support questions for this challenge than any of the other ones
 
 
 use crate::utils::*;
-use crate::set1::ex3::single_byte_xor;
-use crate::set1::ex5::repeating_key_xor;
+use crate::set1::ex3;
+use crate::set1::ex5;
 use std::cmp::Ordering::Less;
 use std::fs;
 
@@ -132,8 +132,8 @@ pub fn break_repeating_key_xor(ciphertext: &Vec<u8>, key_size: usize) -> (Vec<u8
 	let mut key: Vec<u8> = Vec::new();
 	for bl in transposed_blocks {
 		// grab value with best single_byte_xor score
-		let res = &single_byte_xor(&bl.to_vec(), 1)[0];
+		let res = &ex3::single_byte_xor(&bl.to_vec(), 1)[0];
 		key.push(res.value as u8);
 	}
-	(key.clone(), repeating_key_xor(ciphertext, &key))
+	(key.clone(), ex5::repeating_key_xor(ciphertext, &key))
 }
