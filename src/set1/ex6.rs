@@ -35,10 +35,10 @@ We get more tech support questions for this challenge than any of the other ones
 
 */
 
-use ex3;
-use ex5;
-use utils;
 
+use crate::utils::*;
+use crate::set1::ex3::single_byte_xor;
+use crate::set1::ex5::repeating_key_xor;
 use std::cmp::Ordering::Less;
 use std::fs;
 
@@ -94,7 +94,7 @@ pub fn break_repeating_key_xor_full(input: &str) {
 
     let inp_string = fs::read_to_string(input)
     	.expect(&format!("unable to read file {}", input));
-	let bytes = utils::base64_to_bytes(&inp_string);
+	let bytes = base64_to_bytes(&inp_string);
 
 	let sizes = find_best_key_sizes(&bytes, 4);
 	println!("sizes: {:?}", sizes);
@@ -103,13 +103,13 @@ pub fn break_repeating_key_xor_full(input: &str) {
 	let (key, decrypted) = break_repeating_key_xor(&bytes, key_size);
 	println!("key: {:02x?}", key);
 	println!("decrypted:");
-	utils::print_invalid_string(&decrypted);
+	print_invalid_string(&decrypted);
 }
 
 pub fn break_repeating_key_xor(ciphertext: &Vec<u8>, key_size: usize) -> (Vec<u8>, Vec<u8>) {
 	
 	let block: Vec<u8> = Vec::new();
-	let num_blocks = utils::ceil(ciphertext.len(), key_size);
+	let num_blocks = ceil(ciphertext.len(), key_size);
 	let mut blocks: Vec<Vec<u8>> = Vec::new();
 
 	// split into blocks of key_size
@@ -132,8 +132,8 @@ pub fn break_repeating_key_xor(ciphertext: &Vec<u8>, key_size: usize) -> (Vec<u8
 	let mut key: Vec<u8> = Vec::new();
 	for bl in transposed_blocks {
 		// grab value with best single_byte_xor score
-		let res = &ex3::single_byte_xor(&bl.to_vec(), 1)[0];
+		let res = &single_byte_xor(&bl.to_vec(), 1)[0];
 		key.push(res.value as u8);
 	}
-	(key.clone(), ex5::repeating_key_xor(ciphertext, &key))
+	(key.clone(), repeating_key_xor(ciphertext, &key))
 }

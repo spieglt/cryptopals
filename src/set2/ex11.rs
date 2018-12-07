@@ -19,8 +19,7 @@ Detect the block cipher mode the function is using each time. You should end up 
 
 */
 
-use ex9;
-use ex10;
+use crate::set2::{ex9, ex10};
 use rand::{thread_rng, Rng};
 
 pub fn gen_aes128_key() -> [u8;16] {

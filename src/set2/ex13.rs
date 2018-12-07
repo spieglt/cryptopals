@@ -43,8 +43,8 @@ Using only the user input to profile_for() (as an oracle to generate "valid" cip
 
 */
 
-use ex12;
-use utils;
+use crate::set2::ex12;
+use crate::utils;
 use aes::Aes128;
 use block_modes::{BlockMode, BlockModeError, Ecb};
 use block_modes::block_padding::Pkcs7;

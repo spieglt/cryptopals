@@ -37,10 +37,8 @@ How would you modify MT19937 to make this attack hard? What would happen if you 
 // 	Ok(y)
 // }
 
-use set3::ex21;
-
+use crate::set3::ex21;
 use std::cmp::min;
-
 
 fn low_n_bits(inp: u32, n: u32) -> u32 {
 	inp ^ ((inp >> n) << n)
@@ -81,7 +79,7 @@ pub fn clone_mt19947_prng() {
 
 #[cfg(test)]
 mod tests {
-	use set3::ex21;
+	use crate::set3::ex21;
 
 	#[test]
 	fn test_undo_xor_with_right_shift() {

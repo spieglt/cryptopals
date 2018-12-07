@@ -51,10 +51,8 @@ It is easy to get tripped up on the fact that CBC plaintexts are "padded". Paddi
 //		if unmodified, presumably it would have valid padding, so making sure that i != last byte takes care of this.
 // 2. what to do if padding not found? panic.
 
-use ex9;
-use ex10;
-use ex15;
-use utils;
+use crate::set2::{ex9, ex10, ex15};
+use crate::utils;
 use rand::{thread_rng, Rng};
 
 fn encrypt_random_string(key: &[u8]) -> (Vec<u8>, [u8; 16]) {

@@ -2,15 +2,15 @@ mod utils;
 
 // set 1
 mod set1;
-// use set1::*;
+use crate::set1::*;
 
 // set 2
 mod set2;
-// use set2::*;
+use crate::set2::*;
 
 // set 3
 mod set3;
-// use set3::*;
+use crate::set3::*;
 
 extern crate aes;
 extern crate block_modes;

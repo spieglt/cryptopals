@@ -14,8 +14,7 @@ The file here is intelligible (somewhat) when CBC decrypted against "YELLOW SUBM
 
 */
 
-use ex2;
-
+use crate::set1::ex2::fixed_xor;
 use aes::block_cipher_trait::generic_array::GenericArray;
 use block_modes::{BlockMode, BlockModeError, BlockModeIv, Cbc, Ecb};
 use block_modes::block_padding::ZeroPadding;
@@ -51,7 +50,7 @@ pub fn encrypt_aes128cbc(inp: &Vec<u8>, key: &[u8], iv: &[u8]) -> Vec<u8> {
 				temp
 			}
 		};
-		let mut xor_block = ex2::fixed_xor(current_block.to_vec(), previous_block);
+		let mut xor_block = fixed_xor(current_block.to_vec(), previous_block);
 		encrypt_aes128ecb(&mut xor_block, key).expect("could not encrypt");
 		res.append(&mut xor_block);
 	}
@@ -61,8 +60,8 @@ pub fn encrypt_aes128cbc(inp: &Vec<u8>, key: &[u8], iv: &[u8]) -> Vec<u8> {
 
 #[cfg(test)]
 mod tests {
-	use ex7;
-	use ex10;
+	use crate::set1::ex7;
+	use crate::set2::ex10;
 
 	#[test]
 	fn test_ecb_encryption_and_decryption() {

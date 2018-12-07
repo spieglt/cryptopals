@@ -24,8 +24,8 @@ Think "STIMULUS" and "RESPONSE".
 // or make a struct with an enum to match on type. no, because we need prefix AND unknown suffix.
 // need nesting type.
 
+use crate::set2::ex12;
 use std::collections::HashMap;
-use ex12;
 use rand::{thread_rng, Rng};
 
 pub struct SKEWithPrefix {

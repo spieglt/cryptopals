@@ -43,8 +43,8 @@ Most modern cryptography relies on CTR mode to adapt block ciphers into stream c
 
 */
 
-use ex10;
-use utils;
+use crate::set2::ex10;
+use crate::utils;
 use std::mem::transmute;
 
 pub fn encrypt_ctr(text: &Vec<u8>, key: &Vec<u8>, nonce: &Vec<u8>) -> Vec<u8> {

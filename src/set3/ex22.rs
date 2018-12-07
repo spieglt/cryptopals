@@ -20,8 +20,7 @@ From the 32 bit RNG output, discover the seed.
 // Is the point just to seed with every value from the last 80-2000
 // seconds and see if the first number generated matches?
 
-use set3::ex21;
-
+use crate::set3::ex21;
 use rand::{Rng, thread_rng};
 use std::time::{Duration, SystemTime};
 

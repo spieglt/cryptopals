@@ -39,8 +39,8 @@ pub fn strip_padding(plaintext: &Vec<u8>) -> Result<Vec<u8>, &str> {
 
 #[cfg(test)]
 mod tests {
-	use ex15::strip_padding;
-	use ex9;
+	use crate::set2::ex15::strip_padding;
+	use crate::set2::ex9;
 	
 	#[test]
 	fn test_strip_padding() {

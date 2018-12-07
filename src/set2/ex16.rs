@@ -43,12 +43,8 @@ Before you implement this attack, answer this question: why does CBC mode have t
 // they are all scrambled, but the bit that changes in CIPHERTEXT A will be the same bit that changes in the next block of PLAINTEXT B.
 // so: encrypt version without equal sign, look one block back, flip necessary bit, decrypt that, check for change?
 
-use ex9;
-use ex10;
-use ex15;
-use utils;
-
-// use block_modes::{BlockMode, BlockModeError};
+use crate::set2::{ex9, ex10, ex15};
+use crate::utils;
 use rand::{thread_rng, Rng};
 
 pub fn assemble_and_encrypt(inp: &mut Vec<u8>, key: Vec<u8>, iv: &[u8; 16]) -> Vec<u8> {

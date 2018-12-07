@@ -38,11 +38,9 @@ This is the first challenge we've given you whose solution will break real crypt
 
 */
 
-use ex8;
-use ex9;
-use ex10;
-use ex11;
-use utils;
+use crate::set1::ex8;
+use crate::set2::{ex9, ex10, ex11};
+use crate::utils;
 use std::collections::HashMap;
 
 pub struct SingleKeyEncrypter {

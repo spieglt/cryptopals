@@ -66,8 +66,8 @@ Points for automating this, but part of the reason I'm having you do this is tha
 
 */
 
-use ex18;
-use utils;
+use crate::set3::ex18;
+use crate::utils;
 use rand::{Rng, thread_rng};
 
 pub fn break_fixed_nonce_using_substitutions() {

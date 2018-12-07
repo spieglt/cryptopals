@@ -14,9 +14,9 @@ Solve the resulting concatenation of ciphertexts as if for repeating- key XOR, w
 
 */
 
-use ex6;
-use ex18;
-use utils;
+use crate::set1::ex6;
+use crate::set3::ex18;
+use crate::utils;
 use rand::{Rng, thread_rng};
 
 pub fn break_fixed_nonce_ctr_statistically() {
