@@ -129,11 +129,9 @@ impl MtPrng {
 		self.mt[0] = seed;
 		for _i in 1..self.n {
 			let i = _i as usize;
-			self.mt[i] = self.d & (
-				(self.f).wrapping_mul( 
-					self.mt[i-1] ^ (self.mt[i-1] >> (self.w - 2))
-				).wrapping_add(i as u32)
-			);
+			self.mt[i] = (self.f).wrapping_mul( 
+				self.mt[i-1] ^ (self.mt[i-1] >> (self.w - 2))
+			).wrapping_add(i as u32);
 		}
 	}
 
