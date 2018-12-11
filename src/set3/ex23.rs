@@ -94,8 +94,13 @@ fn undo_xor_with_left_shift_and(given: u32, lsv: u32, magic_number: u32) -> u32 
 	known_bits
 }
 
-fn untemper(y: u32) -> u32 {
-	0
+fn untemper(_y: u32) -> u32 {
+	let mut y = _y;
+	y = undo_xor_with_right_shift(y, 18);
+	y = undo_xor_with_left_shift_and(y, 15, 0xEFc60000);
+	y = undo_xor_with_left_shift_and(y, 7, 0x9D2C5680);
+	y = undo_xor_with_right_shift(y, 11);
+	y
 }
 
 
@@ -103,6 +108,17 @@ pub fn clone_mt19947_prng() {
 	let mut target = ex21::MtPrng::new();
 	target.seed_mt(5);
 
+	let mut internal_state = [0; 624];
+	for i in 0..internal_state.len() {
+		internal_state[i] = untemper(target.extract_number().expect("could not extract number"));
+	}
+	let mut clone = ex21::MtPrng::new();
+	clone.mt = internal_state;
+	clone.index = 624;	// what it would be after being seeded
+	for _ in 0..1000 {
+		assert_eq!(clone.extract_number(), target.extract_number());
+		println!("generators are equivalent")
+	}
 }
 
 
