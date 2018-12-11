@@ -123,12 +123,8 @@ mod tests {
 	#[test]
 	fn test_undo_xor_with_right_shift() {
 		let mut mt = ex21::MtPrng::new();
-		mt.seed_mt(3210952839);
-		let mut test_vec = vec![];
-		for _ in 0..1000 {
-			let temp_val = mt.extract_number().unwrap();
-			test_vec.push(temp_val);
-		}
+		mt.seed_mt(thread_rng().gen::<u32>());
+		let test_vec: Vec<u32> = (0..1000).map(|_| mt.extract_number().expect("could not extract number")).collect();
 		for val in test_vec {
 			for rsv in 1..32 {
 				let modified = val ^ (val >> rsv);
@@ -141,7 +137,7 @@ mod tests {
 	fn test_undo_xor_with_left_shift_and() {
 		let mut mt = ex21::MtPrng::new();
 		mt.seed_mt(thread_rng().gen::<u32>());
-		let test_vec: Vec<u32> = (0..1000).map(|_| mt.extract_number().unwrap()).collect();
+		let test_vec: Vec<u32> = (0..1000).map(|_| mt.extract_number().expect("could not extract number")).collect();
 		for val in test_vec {
 			let m1 = val ^ ((val << 7) & 0x9D2C5680);
 			let m2 = val ^ ((val << 15) & 0xEFC60000);
