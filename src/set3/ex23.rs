@@ -129,11 +129,8 @@ mod tests {
 			let temp_val = mt.extract_number().unwrap();
 			test_vec.push(temp_val);
 		}
-		// println!("{:?}", test_vec);
 		for val in test_vec {
-			// println!("on {}", val);
 			for rsv in 1..32 {
-				// println!("rsv {}", rsv);
 				let modified = val ^ (val >> rsv);
 				assert_eq!(val, super::undo_xor_with_right_shift(modified, rsv));
 			}
@@ -144,8 +141,7 @@ mod tests {
 	fn test_undo_xor_with_left_shift_and() {
 		let mut mt = ex21::MtPrng::new();
 		mt.seed_mt(thread_rng().gen::<u32>());
-		let test_vec: Vec<u32> = (0..10).map(|_| mt.extract_number().unwrap()).collect();
-		println!("{:?}",test_vec);
+		let test_vec: Vec<u32> = (0..1000).map(|_| mt.extract_number().unwrap()).collect();
 		for val in test_vec {
 			let m1 = val ^ ((val << 7) & 0x9D2C5680);
 			let m2 = val ^ ((val << 15) & 0xEFC60000);
