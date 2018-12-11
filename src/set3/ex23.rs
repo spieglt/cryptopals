@@ -20,23 +20,6 @@ How would you modify MT19937 to make this attack hard? What would happen if you 
 
 */
 
-// pub fn extract_number(&mut self) -> Result<u32, String> {
-// 	if self.index >= self.n {
-// 		if self.index > self.n {
-// 			return Err("generator was never seeded".to_string());
-// 		}
-// 		self.twist();
-// 	}
-// 	let mut y = self.mt[self.index as usize];
-// 	y ^= (y >> self.u) & self.d;
-// 	y ^= (y << self.s) & self.b;
-// 	y ^= (y << self.t) & self.c;
-// 	y ^= y >> self.l;
-
-// 	self.index += 1;
-// 	Ok(y)
-// }
-
 use crate::set3::ex21;
 use std::cmp::min;
 
@@ -95,6 +78,16 @@ fn undo_xor_with_left_shift_and(given: u32, lsv: u32, magic_number: u32) -> u32 
 }
 
 fn untemper(_y: u32) -> u32 {
+	// (u, d) = (11, 0xFFFFFFFF)
+	// (s, b) = (7, 0x9D2C5680)
+	// (t, c) = (15, 0xEFC60000)
+	// l = 18
+
+	// y := y xor ((y >> u) and d)
+	// y := y xor ((y << s) and b)
+	// y := y xor ((y << t) and c)
+	// y := y xor (y >> l)
+	
 	let mut y = _y;
 	y = undo_xor_with_right_shift(y, 18);
 	y = undo_xor_with_left_shift_and(y, 15, 0xEFc60000);
