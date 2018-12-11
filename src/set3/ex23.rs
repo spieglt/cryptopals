@@ -65,6 +65,35 @@ fn undo_xor_with_right_shift(given: u32, rsv: u32) -> u32 {
 	known_bits
 }
 
+fn undo_xor_with_left_shift_and(given: u32, lsv: u32, magic_number: u32) -> u32 {
+	assert!(lsv <= 32);
+	let mut known_bits = low_n_bits(given, lsv);
+	let mut num_known_bits = lsv;
+	let mut i = 0;
+	while num_known_bits < 32 {
+		let offset = lsv * (i + 1);
+		let num_working_bits = min(lsv, 32 - num_known_bits);
+		let lsb = low_n_bits(known_bits >> (i * lsv), num_working_bits) << offset;
+		let magic_bits = low_n_bits(magic_number >> offset, num_working_bits) << offset;
+		let mask = lsb & magic_bits;
+		let relevant_bits_of_given = low_n_bits(given >> offset, num_working_bits) << offset;
+		// println!("num_known_bits: {}, i: {}, offset: {}, num_working_bits: {}",
+		// 	num_known_bits, i, offset, num_working_bits
+		// );
+		// println!("known_bits:             {:032b}", known_bits);
+		// println!("lsb:                    {:032b}", lsb);
+		// println!("magic_bits:             {:032b}", magic_bits);
+		// println!("mask:                   {:032b}", mask);
+		// println!("relevant_bits_of_given: {:032b}", relevant_bits_of_given);
+		// println!("given:                  {:032b}", given);
+		// println!("===================================\n");
+		known_bits += relevant_bits_of_given ^ mask;
+		num_known_bits += num_working_bits;
+		i += 1;
+	}
+	known_bits
+}
+
 fn untemper(y: u32) -> u32 {
 	0
 }
@@ -80,6 +109,7 @@ pub fn clone_mt19947_prng() {
 #[cfg(test)]
 mod tests {
 	use crate::set3::ex21;
+	use rand::{Rng, thread_rng};
 
 	#[test]
 	fn test_undo_xor_with_right_shift() {
@@ -97,6 +127,18 @@ mod tests {
 				println!("rsv {}", rsv);
 				let modified = val ^ (val >> rsv);
 				assert_eq!(val, super::undo_xor_with_right_shift(modified, rsv));
+			}
+		}
+	}
+
+	fn test_undo_xor_with_left_shift_and() {
+		let mut mt = ex21::MtPrng::new();
+		mt.seed_mt(thread_rng().gen::<u32>());
+		let test_vec: Vec<u32> = (0..1000).map(|_| mt.extract_number().unwrap()).collect();
+		for val in test_vec {
+			for lsv in 0..32 {
+				let modified = val ^ ((val << lsv) & 0x9D2C5680);
+				assert_eq!(val, super::undo_xor_with_left_shift_and(modified, lsv, 0x9D2C5680));
 			}
 		}
 	}
