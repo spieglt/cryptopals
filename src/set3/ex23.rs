@@ -87,10 +87,10 @@ fn untemper(_y: u32) -> u32 {
 	// y := y xor ((y << s) and b)
 	// y := y xor ((y << t) and c)
 	// y := y xor (y >> l)
-	
+
 	let mut y = _y;
 	y = undo_xor_with_right_shift(y, 18);
-	y = undo_xor_with_left_shift_and(y, 15, 0xEFc60000);
+	y = undo_xor_with_left_shift_and(y, 15, 0xEFC60000);
 	y = undo_xor_with_left_shift_and(y, 7, 0x9D2C5680);
 	y = undo_xor_with_right_shift(y, 11);
 	y
@@ -129,26 +129,28 @@ mod tests {
 			let temp_val = mt.extract_number().unwrap();
 			test_vec.push(temp_val);
 		}
-		println!("{:?}", test_vec);
+		// println!("{:?}", test_vec);
 		for val in test_vec {
-			println!("on {}", val);
+			// println!("on {}", val);
 			for rsv in 1..32 {
-				println!("rsv {}", rsv);
+				// println!("rsv {}", rsv);
 				let modified = val ^ (val >> rsv);
 				assert_eq!(val, super::undo_xor_with_right_shift(modified, rsv));
 			}
 		}
 	}
 
+	#[test]
 	fn test_undo_xor_with_left_shift_and() {
 		let mut mt = ex21::MtPrng::new();
 		mt.seed_mt(thread_rng().gen::<u32>());
-		let test_vec: Vec<u32> = (0..1000).map(|_| mt.extract_number().unwrap()).collect();
+		let test_vec: Vec<u32> = (0..10).map(|_| mt.extract_number().unwrap()).collect();
+		println!("{:?}",test_vec);
 		for val in test_vec {
-			for lsv in 0..32 {
-				let modified = val ^ ((val << lsv) & 0x9D2C5680);
-				assert_eq!(val, super::undo_xor_with_left_shift_and(modified, lsv, 0x9D2C5680));
-			}
+			let m1 = val ^ ((val << 7) & 0x9D2C5680);
+			let m2 = val ^ ((val << 15) & 0xEFC60000);
+			assert_eq!(val, super::undo_xor_with_left_shift_and(m1, 7, 0x9D2C5680));
+			assert_eq!(val, super::undo_xor_with_left_shift_and(m2, 15, 0xEFC60000));
 		}
 	}
 }
