@@ -192,9 +192,13 @@ fn set_three() {
 	// ex22
 	println!("\nex22:");
 	ex22::crack_mt19937_seed();
+
+	// ex23
+	println!("\nex23:");
+	ex23::clone_mt19947_prng();
 }
 
 fn current_exercise() {
-	println!("\nex23:");
-	ex23::clone_mt19947_prng();
+	// ex24
+	ex24::mt19937_stream_cipher();
 }
