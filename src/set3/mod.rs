@@ -5,3 +5,4 @@ pub mod ex20;
 pub mod ex21;
 pub mod ex22;
 pub mod ex23;
+pub mod ex24;
