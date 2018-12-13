@@ -200,5 +200,5 @@ fn set_three() {
 
 fn current_exercise() {
 	// ex24
-	ex24::mt19937_stream_cipher();
+	ex24::crack_mt19937_stream_cipher_with_16_bit_seed();
 }
