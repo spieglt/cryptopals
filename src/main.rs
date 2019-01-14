@@ -12,6 +12,10 @@ use crate::set2::*;
 mod set3;
 use crate::set3::*;
 
+// set 4
+mod set4;
+use crate::set4::*;
+
 extern crate aes;
 extern crate block_modes;
 extern crate rand;
@@ -196,10 +200,14 @@ fn set_three() {
 	// ex23
 	println!("\nex23:");
 	ex23::clone_mt19947_prng();
-}
 
-fn current_exercise() {
 	// ex24
 	ex24::crack_mt19937_stream_cipher_with_16_bit_seed();
 	ex24::test_is_from_mt19937_with_timestamp_seed();
+}
+
+fn current_exercise() {
+	// ex25
+	ex25::break_random_access_read_write();
+	
 }
