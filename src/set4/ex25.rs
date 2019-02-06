@@ -51,5 +51,7 @@ pub fn break_random_access_read_write() {
 	let encrypter = CtrEncrypter::new(&key, &nonce);
 	let encrypted = ex18::encrypt_ctr(&plaintext, &key, &nonce);
 
-	
+	// for each block
+		// for each byte of block, need known bytes
+			// for 0..=255, need ciphertext
 }
