@@ -110,7 +110,6 @@ pub fn clone_mt19947_prng() {
 	clone.index = 624;	// what it would be after being seeded
 	for _ in 0..1000 {
 		assert_eq!(clone.extract_number(), target.extract_number());
-		println!("generators are equivalent")
 	}
 }
 

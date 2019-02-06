@@ -19,17 +19,37 @@ use crate::{ex11, ex18};
 use crate::utils;
 use rand::{thread_rng, Rng};
 
-fn edit() {
+// attacker controls offset and new text. ciphertext is xor of plaintext and keystream. keystream is aes of key and nonce + counter. we know counter.
+// we don't know nonce but we do because we who are writing the edit function have the key, we're just exposing the function. so we have key.
+// attacker wants to recover original plaintext, which means they need keystream. they can... adjust last byte to valid padding? no, not that attack.
+// but can do with all 0, see what it produces, and compare to known? no.
 
+// edit entire first block - 1 with 0, note ciphertext. then edit entire first block - 1 with 0, loop through other values of byte, and compare to ciphertext.
+
+struct CtrEncrypter {
+	key: Vec<u8>,
+	nonce: Vec<u8>,
+}
+
+impl CtrEncrypter {
+	fn new(key: &Vec<u8>, nonce: &Vec<u8>) -> CtrEncrypter {
+		CtrEncrypter{key: key.clone(), nonce: nonce.clone()}
+	}
+	fn edit(ciphertext: Vec<u8>, key: Vec<u8>, offset: u64, newtext: Vec<u8>) {
+		// calculate block # of offset and # of blocks covered.
+	}
 }
 
 pub fn break_random_access_read_write() {
 	let plaintext = utils::read_file("./src/resources/ex25.txt");
+	
 	let key = ex11::gen_aes128_key().to_vec();
-
 	let mut _nonce = [0u8; 8];
 	thread_rng().fill(&mut _nonce);
 	let nonce = _nonce.to_vec();
 
+	let encrypter = CtrEncrypter::new(&key, &nonce);
 	let encrypted = ex18::encrypt_ctr(&plaintext, &key, &nonce);
+
+	
 }
