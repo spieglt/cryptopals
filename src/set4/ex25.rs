@@ -52,23 +52,17 @@ pub fn break_random_access_read_write() {
 	let encrypted = ex18::encrypt_ctr(&plaintext, &key, &nonce);
 
 	// for each block
-	for i in 0..utils::ceil(encrypted.len(), ) {
+	for i in 0..utils::ceil(encrypted.len(), 16) {
 		let bytes_left = encrypted.len();
 		let current_block = encrypted[i*16 .. (i*16 + min(16, bytes_left))];
 		let mut known_bytes = Vec::new();
 		// for each byte of block, need known bytes
-		for b in current_block.iter() {
+		for j in 0..current_block.len() {
 			// for 0..=255, need ciphertext
+			let target_block = current_block.clone();
 			
 		}
 
 	}
 	
-}
-
-fn min(x: usize, y: usize) -> usize {
-	match x < y {
-		true => x,
-		false => y,
-	}
 }

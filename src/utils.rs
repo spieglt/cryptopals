@@ -128,3 +128,10 @@ pub fn ceil(num: usize, denom: usize) -> usize {
 	}
 	num / denom
 }
+
+pub fn min(x: usize, y: usize) -> usize {
+	match x < y {
+		true => x,
+		false => y,
+	}
+}
