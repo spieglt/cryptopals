@@ -25,10 +25,11 @@ use std::iter::FromIterator;
 fn main() {
 	for a in std::env::args() {
 		match a.as_str() {
-			"all" => { set_one(); set_two(); set_three(); return; },
+			"all" => { set_one(); set_two(); set_three(); set_four(); return; },
 			"1" => { set_one(); return; },
 			"2" => { set_two(); return; },
 			"3" => { set_three(); return; },
+			"4" => { set_four(); return; },
 			_ => (),
 		}
 	}
@@ -202,12 +203,18 @@ fn set_three() {
 	ex23::clone_mt19947_prng();
 
 	// ex24
+	println!("\nex24:");
 	ex24::crack_mt19937_stream_cipher_with_16_bit_seed();
 	ex24::test_is_from_mt19937_with_timestamp_seed();
+
+}
+
+fn set_four() {
+
 }
 
 fn current_exercise() {
 	// ex25
+	println!("\nex25:");
 	ex25::break_random_access_read_write();
-	
 }

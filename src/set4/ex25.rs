@@ -18,6 +18,8 @@ A folkloric supposed benefit of CTR mode is the ability to easily "seek forward"
 use crate::{ex11, ex18};
 use crate::utils;
 use rand::{thread_rng, Rng};
+use std::io;
+use std::io::Write;
 
 // attacker controls offset and new text. ciphertext is xor of plaintext and keystream. keystream is aes of key and nonce + counter. we know counter.
 // we don't know nonce but we do because we who are writing the edit function have the key, we're just exposing the function. so we have key.
@@ -35,13 +37,20 @@ impl CtrEncrypter {
 	fn new(key: &Vec<u8>, nonce: &Vec<u8>) -> CtrEncrypter {
 		CtrEncrypter{key: key.clone(), nonce: nonce.clone()}
 	}
-	fn edit(ciphertext: Vec<u8>, key: Vec<u8>, offset: u64, newtext: Vec<u8>) {
-		// calculate block # of offset and # of blocks covered.
+	fn edit(&self, ciphertext: &Vec<u8>, offset: &u64, newtext: &Vec<u8>) -> Vec<u8> {
+		// TODO: calculate block # of offset and # of blocks covered?
+		// for now, going to be lazy and just unencrypt/reencrypt the whole thing.
+		let mut plaintext = ex18::encrypt_ctr(&ciphertext, &self.key, &self.nonce);
+		for (i, b) in newtext.iter().enumerate() {
+			plaintext[*offset as usize + i] = *b;
+		}
+		ex18::encrypt_ctr(&plaintext, &self.key, &self.nonce)
 	}
 }
 
 pub fn break_random_access_read_write() {
-	let plaintext = utils::read_file("./src/resources/ex25.txt");
+	let plaintext_b64 = String::from_utf8(utils::read_file("./src/resources/25.txt")).expect("could not convert to string");
+	let plaintext = utils::base64_to_bytes(&plaintext_b64);
 	
 	let key = ex11::gen_aes128_key().to_vec();
 	let mut _nonce = [0u8; 8];
@@ -51,18 +60,39 @@ pub fn break_random_access_read_write() {
 	let encrypter = CtrEncrypter::new(&key, &nonce);
 	let encrypted = ex18::encrypt_ctr(&plaintext, &key, &nonce);
 
+	let mut known_bytes = Vec::new();
+	let mut bytes_left = encrypted.len();
 	// for each block
 	for i in 0..utils::ceil(encrypted.len(), 16) {
-		let bytes_left = encrypted.len();
-		let current_block = encrypted[i*16 .. (i*16 + min(16, bytes_left))];
-		let mut known_bytes = Vec::new();
-		// for each byte of block, need known bytes
-		for j in 0..current_block.len() {
-			// for 0..=255, need ciphertext
-			let target_block = current_block.clone();
-			
-		}
+		
+		let lower_bound = i*16;
+		let upper_bound = i*16 + utils::min(16, bytes_left);
+		
+		/*
+		what do we want to do here? in each iteration of loop, we're looking for a single byte. we need to edit block to all 0 except for one byte, and keep resulting ciphertext as reference.
+		then, in 0..=255 loop, make another copy, and overwrite entire block with known_bytes + test_byte + 0s. when we match, add byte to known_bytes.
+		no, don't overwrite with known_bytes. can just leave them be?
+		*/
 
+		// for each byte of block
+		for test_byte_index in 0..(upper_bound - lower_bound) {
+			// println!("on block index {:02x}", test_byte_index);
+			let reference_ct = encrypter.edit(&mut encrypted.clone(), &((test_byte_index + 1) as u64), &vec![b'0'; 16-1-test_byte_index]);
+			// for all possible values
+			for b in 0..=255 {
+				// println!("on byte {:02x}", b);
+				let mut test_data = vec![b];
+				test_data.append(&mut vec![b'0'; 16-1-test_byte_index]);
+				let test_ct = encrypter.edit(&mut encrypted.clone(), &(test_byte_index as u64), &test_data);
+				if test_ct == reference_ct {
+					print!("{}", b as char);
+					io::stdout().flush();
+					known_bytes.push(b);
+					break;
+				}
+			}
+		}
+		bytes_left -= upper_bound - lower_bound
 	}
-	
+	println!("{:?}", String::from_utf8_lossy(&known_bytes));
 }
