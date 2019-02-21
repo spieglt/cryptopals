@@ -44,6 +44,7 @@ impl CtrEncrypter {
 		for (i, b) in newtext.iter().enumerate() {
 			plaintext[*offset as usize + i] = *b;
 		}
+		println!("edited to {:02x?}", &plaintext[*offset as usize..*offset as usize + newtext.len()]);
 		ex18::encrypt_ctr(&plaintext, &self.key, &self.nonce)
 	}
 }
@@ -77,7 +78,8 @@ pub fn break_random_access_read_write() {
 		// for each byte of block
 		for test_byte_index in 0..(upper_bound - lower_bound) {
 			// println!("on block index {:02x}", test_byte_index);
-			let reference_ct = encrypter.edit(&mut encrypted.clone(), &((test_byte_index + 1) as u64), &vec![b'0'; 16-1-test_byte_index]);
+			let reference_ct = encrypter.edit(&mut encrypted.clone(), &((lower_bound + test_byte_index + 1) as u64), &vec![b'0'; 16-1-test_byte_index]);
+
 			// for all possible values
 			for b in 0..=255 {
 				// println!("on byte {:02x}", b);
@@ -86,7 +88,7 @@ pub fn break_random_access_read_write() {
 				let test_ct = encrypter.edit(&mut encrypted.clone(), &(test_byte_index as u64), &test_data);
 				if test_ct == reference_ct {
 					print!("{}", b as char);
-					io::stdout().flush();
+					io::stdout().flush().expect("could not flush stdout");
 					known_bytes.push(b);
 					break;
 				}
