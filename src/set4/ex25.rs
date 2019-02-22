@@ -39,6 +39,11 @@ impl CtrEncrypter {
 	}
 	fn edit(&self, ciphertext: &Vec<u8>, offset: &u64, newtext: &Vec<u8>) -> Vec<u8> {
 		// TODO: calculate block # of offset and # of blocks covered?
+		// let low_block = offset / 16;
+		// let high_block = (offset + newtext.len()) / 16;
+		// need keystream for those blocks, so need nonce and to transmute block nums, then aes with key
+		// then grab those blocks from ciphertext, xor, edit, re-xor, put back into ciphertext
+
 		// for now, going to be lazy and just unencrypt/reencrypt the whole thing.
 		let mut plaintext = ex18::encrypt_ctr(&ciphertext, &self.key, &self.nonce);
 		for (i, b) in newtext.iter().enumerate() {
