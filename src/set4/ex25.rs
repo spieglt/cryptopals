@@ -44,8 +44,6 @@ impl CtrEncrypter {
 		for (i, b) in newtext.iter().enumerate() {
 			plaintext[*offset as usize + i] = *b;
 		}
-		// println!("edited to {:02x?}", &plaintext[*offset as usize..*offset as usize + newtext.len()]);
-		// println!("edited to:\n{}", String::from_utf8_lossy(&plaintext));
 		ex18::encrypt_ctr(&plaintext, &self.key, &self.nonce)
 	}
 }
@@ -54,7 +52,6 @@ pub fn break_random_access_read_write() {
 	let plaintext_b64 = String::from_utf8(utils::read_file("./src/resources/25.txt")).expect("could not convert to string");
 	let mut plaintext = utils::base64_to_bytes(&plaintext_b64);
 
-	// println!("{}", String::from_utf8_lossy(&plaintext[50..55]));
 	// misread the prompt. thought "the recovered plaintext from this file (the ECB exercise)" meant recovered by base64-decoding,
 	// but in ex7, the ecb exercise, this was still encrypted after decoding. so we need to ecb decrypt it.
 	ex7::decrypt_aes128ecb(&mut plaintext, "YELLOW SUBMARINE".as_bytes()).expect("could not decrypt");
@@ -75,13 +72,7 @@ pub fn break_random_access_read_write() {
 		
 		let lower_bound = i*16;
 		let upper_bound = i*16 + utils::min(16, bytes_left);
-		println!("lower bound = {}, upper bound = {}", lower_bound, upper_bound);
-		
-		/*
-		what do we want to do here? in each iteration of loop, we're looking for a single byte. we need to edit block to all 0 except for one byte, and keep resulting ciphertext as reference.
-		then, in 0..=255 loop, make another copy, and overwrite entire block with known_bytes + test_byte + 0s. when we match, add byte to known_bytes.
-		no, don't overwrite with known_bytes. can just leave them be?
-		*/
+		// println!("lower bound = {}, upper bound = {}", lower_bound, upper_bound);
 
 		// for each byte of block
 		for test_byte_index in 0..(upper_bound - lower_bound) {
@@ -89,10 +80,9 @@ pub fn break_random_access_read_write() {
 
 			// for all possible values
 			for b in 0..=255 {
-				// println!("on byte {:02x}", b);
 				let mut test_data = vec![b];
 				test_data.append(&mut vec![b'0'; 16-1-test_byte_index]);
-				let test_ct = encrypter.edit(&mut encrypted.clone(), &(test_byte_index as u64), &test_data);
+				let test_ct = encrypter.edit(&mut encrypted.clone(), &((lower_bound + test_byte_index) as u64), &test_data);
 				if test_ct == reference_ct {
 					print!("{}", b as char);
 					io::stdout().flush().expect("could not flush stdout");
@@ -125,7 +115,7 @@ mod tests {
 		let edited = encrypter.edit(&encrypted, &4, &"what's up".bytes().collect());
 
 		let unencrypted = ex18::encrypt_ctr(&edited, &key, &nonce);
-		println!("result: {}", String::from_utf8_lossy(&unencrypted));
-		assert_eq!(unencrypted, "HEY what's upS HERE'S THE TEXT WE'RE GONNA ENCRYPT".bytes().collect());
+		let res: Vec<u8> = "HEY what's upS HERE'S THE TEXT WE'RE GONNA ENCRYPT".bytes().collect();
+		assert_eq!(unencrypted, res);
 	}
 }

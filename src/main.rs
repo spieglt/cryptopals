@@ -216,6 +216,5 @@ fn set_four() {
 fn current_exercise() {
 	// ex25
 	println!("\nex25:");
-	ex25::test_edit();
 	ex25::break_random_access_read_write();
 }
