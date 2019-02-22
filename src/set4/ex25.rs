@@ -15,7 +15,7 @@ A folkloric supposed benefit of CTR mode is the ability to easily "seek forward"
 
 */
 
-use crate::{ex11, ex18};
+use crate::{ex7, ex11, ex18};
 use crate::utils;
 use rand::{thread_rng, Rng};
 use std::io;
@@ -44,14 +44,21 @@ impl CtrEncrypter {
 		for (i, b) in newtext.iter().enumerate() {
 			plaintext[*offset as usize + i] = *b;
 		}
-		println!("edited to {:02x?}", &plaintext[*offset as usize..*offset as usize + newtext.len()]);
+		// println!("edited to {:02x?}", &plaintext[*offset as usize..*offset as usize + newtext.len()]);
+		// println!("edited to:\n{}", String::from_utf8_lossy(&plaintext));
 		ex18::encrypt_ctr(&plaintext, &self.key, &self.nonce)
 	}
 }
 
 pub fn break_random_access_read_write() {
 	let plaintext_b64 = String::from_utf8(utils::read_file("./src/resources/25.txt")).expect("could not convert to string");
-	let plaintext = utils::base64_to_bytes(&plaintext_b64);
+	let mut plaintext = utils::base64_to_bytes(&plaintext_b64);
+
+	// println!("{}", String::from_utf8_lossy(&plaintext[50..55]));
+	// misread the prompt. thought "the recovered plaintext from this file (the ECB exercise)" meant recovered by base64-decoding,
+	// but in ex7, the ecb exercise, this was still encrypted after decoding. so we need to ecb decrypt it.
+	ex7::decrypt_aes128ecb(&mut plaintext, "YELLOW SUBMARINE".as_bytes()).expect("could not decrypt");
+
 	
 	let key = ex11::gen_aes128_key().to_vec();
 	let mut _nonce = [0u8; 8];
@@ -68,6 +75,7 @@ pub fn break_random_access_read_write() {
 		
 		let lower_bound = i*16;
 		let upper_bound = i*16 + utils::min(16, bytes_left);
+		println!("lower bound = {}, upper bound = {}", lower_bound, upper_bound);
 		
 		/*
 		what do we want to do here? in each iteration of loop, we're looking for a single byte. we need to edit block to all 0 except for one byte, and keep resulting ciphertext as reference.
@@ -77,7 +85,6 @@ pub fn break_random_access_read_write() {
 
 		// for each byte of block
 		for test_byte_index in 0..(upper_bound - lower_bound) {
-			// println!("on block index {:02x}", test_byte_index);
 			let reference_ct = encrypter.edit(&mut encrypted.clone(), &((lower_bound + test_byte_index + 1) as u64), &vec![b'0'; 16-1-test_byte_index]);
 
 			// for all possible values
@@ -97,4 +104,28 @@ pub fn break_random_access_read_write() {
 		bytes_left -= upper_bound - lower_bound
 	}
 	println!("{:?}", String::from_utf8_lossy(&known_bytes));
+}
+
+mod tests {
+	#[test]
+	fn test_edit() {
+		use crate::ex11;
+		use crate::set3::ex18;
+		use rand::{Rng, thread_rng};
+		
+		let plaintext = "HEY THERE THIS HERE'S THE TEXT WE'RE GONNA ENCRYPT".as_bytes().to_vec();
+
+		let key = ex11::gen_aes128_key().to_vec();
+		let mut _nonce = [0u8; 8];
+		thread_rng().fill(&mut _nonce);
+		let nonce = _nonce.to_vec();
+		let encrypter = super::CtrEncrypter::new(&key, &nonce);
+
+		let encrypted = ex18::encrypt_ctr(&plaintext, &key, &nonce);
+		let edited = encrypter.edit(&encrypted, &4, &"what's up".bytes().collect());
+
+		let unencrypted = ex18::encrypt_ctr(&edited, &key, &nonce);
+		println!("result: {}", String::from_utf8_lossy(&unencrypted));
+		assert_eq!(unencrypted, "HEY what's upS HERE'S THE TEXT WE'RE GONNA ENCRYPT".bytes().collect());
+	}
 }
