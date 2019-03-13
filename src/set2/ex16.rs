@@ -89,14 +89,14 @@ pub fn bitflipping_attack() {
 	let plaintext: Vec<char> = "AAAA:admin<true".to_string().chars().collect();
 	let original_ct = assemble_and_encrypt(&mut plaintext.clone().iter().map(|x| *x as u8).collect(), key.to_vec(), iv);
 
-	print!("unmodified:");
-	for (i,v) in original_ct.iter().enumerate() {
-		if i % 16 == 0 {
-			println!();
-		}
-		print!("{:02x} ", v);
-	}
-	println!();
+	// print!("unmodified:");
+	// for (i,v) in original_ct.iter().enumerate() {
+	// 	if i % 16 == 0 {
+	// 		println!();
+	// 	}
+	// 	print!("{:02x} ", v);
+	// }
+	// println!();
 
 	// < sign is at index 43. 43 - 16 = 27. flip last bit of byte[26].
 	// : at 37, so [20]
