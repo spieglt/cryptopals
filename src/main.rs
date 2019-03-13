@@ -210,11 +210,14 @@ fn set_three() {
 }
 
 fn set_four() {
+	// ex25
+	println!("\nex25:");
+	ex25::break_random_access_read_write();
 
 }
 
 fn current_exercise() {
-	// ex25
-	println!("\nex25:");
-	ex25::break_random_access_read_write();
+	// ex26
+	println!("\nex26:");
+	ex26::ctr_bitflipping_attack();
 }
