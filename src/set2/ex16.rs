@@ -86,8 +86,8 @@ pub fn bitflipping_attack() {
 	thread_rng().fill(&mut key);
 	println!("key: {:02x?}", key);
 	let iv = &[0; 16];
-	let plaintext: Vec<char> = "AAAA:admin<true".to_string().chars().collect();
-	let original_ct = assemble_and_encrypt(&mut plaintext.clone().iter().map(|x| *x as u8).collect(), key.to_vec(), iv);
+	let mut plaintext: Vec<u8> = "AAAA:admin<true".as_bytes().to_vec();
+	let original_ct = assemble_and_encrypt(&mut plaintext, key.to_vec(), iv);
 
 	// print!("unmodified:");
 	// for (i,v) in original_ct.iter().enumerate() {

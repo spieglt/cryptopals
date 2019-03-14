@@ -36,7 +36,7 @@ fn assemble_and_encrypt(inp: &mut Vec<u8>, key: &[u8; 16]) -> Vec<u8> {
 fn decrypt(mut inp: &mut Vec<u8>, key: &[u8]) -> Result<(), String> {
 	match ex10::decrypt_aes128cbc(&mut inp, key, key) {
 		Ok(()) => (),
-		Err(x) => return Err("block mode error".to_string()),
+		Err(_) => return Err("block mode error".to_string()),
 	}
 	for c in inp.iter() {
 		match c.is_ascii() {
@@ -52,9 +52,10 @@ pub fn crack_cbc_key_equals_iv() {
 	let mut key = [0u8; 16];
 	thread_rng().fill(&mut key);
 	// println!("key: {:02x?}", key);
-	
-	let plaintext: Vec<char> = "looooooooooooongboi, many blocks".to_string().chars().collect();
-	let original_ct = assemble_and_encrypt(&mut plaintext.clone().iter().map(|x| *x as u8).collect(), &key);
+
+	let mut plaintext: Vec<u8> = "looooooooooooongboi, many blocks".as_bytes().to_vec();
+	let original_ct = assemble_and_encrypt(&mut plaintext, &key);
+
 
 	let mut modified_ct = original_ct[..key_size].to_vec();
 	modified_ct.append(&mut [0;16].to_vec());
