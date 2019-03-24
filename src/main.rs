@@ -218,10 +218,13 @@ fn set_four() {
 	println!("\nex26:");
 	ex26::ctr_bitflipping_attack();
 
-}
-
-fn current_exercise() {
 	// ex27
 	println!("\nex27:");
 	ex27::crack_cbc_key_equals_iv();
+}
+
+fn current_exercise() {
+	// ex28
+	println!("\nex28:");
+	ex28::sha1_keyed_mac();
 }
