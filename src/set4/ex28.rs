@@ -14,6 +14,35 @@ Verify that you cannot tamper with the message without breaking the MAC you've p
 
 */
 
-pub fn sha1_keyed_mac() {
+use rand::{Rng, thread_rng};
+use sha1::{Sha1, Digest};
+
+struct Sha1KeyedMac {
+    key: Vec<u8>
+}
+
+impl Sha1KeyedMac {
+    pub fn new(key: &Vec<u8>) -> Sha1KeyedMac {
+        Sha1KeyedMac{
+            key: key.clone()
+        }
+    }
+
+    pub fn gen(&self, message: &Vec<u8>) -> Vec<u8> {
+        let mut inp = self.key.clone();
+        inp.append(&mut message.clone());
+
+        let mut hasher = Sha1::new();
+        hasher.input(inp);
+        hasher.result().to_vec()
+    }
+}
+
+pub fn sha1_keyed_mac() { 
+    let key = (0..16).map(|_| thread_rng().gen::<u8>()).collect();
+    println!("key: {:02x?}", key);
+
+    let s1km = Sha1KeyedMac::new(&key);
+    println!("{:02x?}", s1km.gen(&b"very important data indeed".to_vec()));
 
 }
