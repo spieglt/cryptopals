@@ -17,42 +17,53 @@ Verify that you cannot tamper with the message without breaking the MAC you've p
 use rand::{Rng, thread_rng};
 use sha1::{Sha1, Digest};
 
-struct Sha1KeyedMac {
+pub struct Sha1KeyedMac {
+	sha1: sha1::Sha1,
 	key: Vec<u8>
 }
 
 impl Sha1KeyedMac {
 	pub fn new(key: &Vec<u8>) -> Sha1KeyedMac {
-		Sha1KeyedMac{
-			key: key.clone()
+		let mut hasher = Sha1::new();
+		Sha1KeyedMac {
+			sha1: hasher,
+			key: key.clone(),
 		}
 	}
 
-	pub fn gen(&self, message: &Vec<u8>) -> Vec<u8> {
-		let mut inp = self.key.clone();
-		inp.append(&mut message.clone());
-
+	pub fn custom(registers: [u32; 5], key: &Vec<u8>) -> Sha1KeyedMac {
 		let mut hasher = Sha1::new();
-		hasher.input(inp);
-		hasher.result().to_vec()
+		hasher.h = registers;
+		Sha1KeyedMac {
+			sha1: hasher,
+			key: key.clone(),
+		}		
 	}
 
-	pub fn authenticate(&self, mac: &Vec<u8>, message: &Vec<u8>) -> bool {
+	pub fn gen(&mut self, message: &Vec<u8>) -> Vec<u8> {
+		let mut inp = self.key.clone();
+		inp.append(&mut message.clone());
+		self.sha1.input(inp);
+		self.sha1.clone().result().to_vec()
+	}
+
+	pub fn authenticate(&mut self, mac: &Vec<u8>, message: &Vec<u8>) -> bool {
 		self.gen(message) == *mac
 	}
 }
 
 pub fn sha1_keyed_mac() {
 	let key = (0..16).map(|_| thread_rng().gen::<u8>()).collect();
-	let s1km = Sha1KeyedMac::new(&key);
+	let mut s1km = Sha1KeyedMac::new(&key);
 	let message = &b"very important data indeed".to_vec();
 	let mac = s1km.gen(message);
+	println!("{:02x?}", mac);
 
 	assert!(s1km.authenticate(&mac, message));
 	// Verify that you cannot tamper with the message without breaking the MAC you've produced
 	assert!(!s1km.authenticate(&mac, &b"not so important data".to_vec()));
 	// and that you can't produce a new MAC without knowing the secret key.
-	let different_s1km = Sha1KeyedMac::new(&(0..16).map(|_| thread_rng().gen::<u8>()).collect());
+	let mut different_s1km = Sha1KeyedMac::new(&(0..16).map(|_| thread_rng().gen::<u8>()).collect());
 	assert!(mac != different_s1km.gen(message));
 	println!("authenticate function works");
 }

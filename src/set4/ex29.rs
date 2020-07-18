@@ -36,10 +36,12 @@ For instance: Thai Duong and Juliano Rizzo, who got to this attack before we did
 */
 
 use crate::utils;
+use crate::ex28;
+use rand::{Rng, thread_rng};
 
-fn pad_message(message: &Vec<u8>) -> Vec<u8> {
+fn pad_message(message: &Vec<u8>, excess: usize) -> Vec<u8> {
     // message needs to be multiple of 512 bits/64 bytes
-    let padding_len = 64 - (message.len() % 64);
+    let padding_len = 64 - ((message.len() + excess) % 64);
     let mut padded = message.clone();
     // padding starts with 0x80/0b10000000
     padded.push(0x80);
@@ -47,13 +49,13 @@ fn pad_message(message: &Vec<u8>) -> Vec<u8> {
     let mut zeroes = vec![0; padding_len - 9];
     padded.append(&mut zeroes);
     // then last 8 bytes should be length of the message (64-bit int, big-endian says Wikipedia)
-    let l = message.len() as u64;
+    let l = (message.len() + excess) as u64;
     for i in 0..8 {
         padded.push(((l >> (8*(7 - i))) & 0xFF) as u8);
     }
     // utils::print_invalid_string(&padded);
-    println!("{:02x?}\n{}", padded, padded.len());
-    assert!((padded.len() * 8) % 512 == 0, "padding not congruent to 512 bits");
+    // println!("{:02x?}\n{}", padded, padded.len());
+    // assert!((padded.len() * 8) % 512 == 0, "padding not congruent to 512 bits");
     // padded vec construction: [ message | 0x80 | (padding_len - 9) bytes of zeroes | 64-bit message size ]
     padded
 }
@@ -61,13 +63,41 @@ fn pad_message(message: &Vec<u8>) -> Vec<u8> {
 pub fn break_sha1_keyed_mac() {
     let orig_message = "comment1=cooking%20MCs;userdata=foo;comment2=%20like%20a%20pound%20of%20bacon"
         .as_bytes().to_vec();
-    let padded = pad_message(&orig_message);
+    // let mut padded = pad_message(&orig_message);
 
     // the goal is just to make our message pass the authenticate function. we don't need to know the key,
     // we just need to know its length which is much easier to guess at
     // so, forgery = fakekeyofunknownlength + original message which we know + padding bytes + new message
     // then the SHA1 lib will add the real final padding for us, and we adjust the fake key's length until one passes the auth function.
+    let key = (0..16).map(|_| thread_rng().gen::<u8>()).collect();
+    let mut s1km = ex28::Sha1KeyedMac::new(&key);
+    let orig_hash = s1km.gen(&orig_message);
+    println!("{:02x?}\n{}", orig_hash, orig_hash.len());
 
+    let mut registers = [0u32; 5];
+    for i in 0..5 {
+        for j in 0..4 {
+            registers[i] <<= 8;
+            registers[i] |= orig_hash[(4*i) + j] as u32
+        }
+    }
+    println!("{:02x?}", registers);
     
-    // the hashing of the new data will be done AFTER the hashing of the original data + glue padding, so importing a/b/c/d legitimates our 
+    let mut hasher = ex28::Sha1KeyedMac::custom(registers, &key);
+    let mut new_data = ";admin=true".as_bytes().to_vec();
+    let new_hash = hasher.gen(&new_data);
+
+    // let mut fake_pw_len = 0;
+    for i in 0..20 {
+        let mut padded = pad_message(&orig_message, i);
+        let mut forgery = vec![0x41u8; i];
+        forgery.append(&mut padded);
+        forgery.append(&mut new_data.clone());
+        match hasher.authenticate(&new_hash, &forgery) {
+            true => println!("forged!"),
+            // false => utils::print_invalid_string(&forgery),
+            false => (),
+        }
+    }
+
 }
