@@ -221,10 +221,14 @@ fn set_four() {
 	// ex27
 	println!("\nex27:");
 	ex27::crack_cbc_key_equals_iv();
+	
+	// ex28
+	println!("\nex28:");
+	ex28::sha1_keyed_mac();
 }
 
 fn current_exercise() {
 	// ex28
-	println!("\nex28:");
-	ex28::sha1_keyed_mac();
+	println!("\nex29:");
+	ex29::break_sha1_keyed_mac();
 }

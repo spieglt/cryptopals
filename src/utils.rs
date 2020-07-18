@@ -75,13 +75,13 @@ pub fn score_characters(chars: &Vec<u8>) -> f64 {
 	for c in chars.iter() {
 		match c {
 			0x20 => score += 5.0,	// give points for spaces why not
-			0x41 ... 0x5a => {		// uppercase
+			0x41 ..= 0x5a => {		// uppercase
 				score += letter_frequencies[(c - 0x41) as usize];
 			},
-			0x61 ... 0x7a => {		// lowercase
+			0x61 ..= 0x7a => {		// lowercase
 				score += letter_frequencies[(c - 0x61) as usize];
 			},
-			0x20 ... 0x7e => (),	// printable
+			0x21 ..= 0x7e => (),	// printable
 			_ => {					// if not printable, penalize
 				score -= 10.0;
 			}
