@@ -43,6 +43,7 @@ impl Sha1KeyedMac {
 	pub fn gen(&mut self, message: &Vec<u8>) -> Vec<u8> {
 		let mut inp = self.key.clone();
 		inp.append(&mut message.clone());
+		// println!("input: {:02x?}", inp);
 		self.sha1.input(inp);
 		self.sha1.clone().result().to_vec()
 	}
