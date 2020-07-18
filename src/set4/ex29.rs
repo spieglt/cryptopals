@@ -69,35 +69,37 @@ pub fn break_sha1_keyed_mac() {
     // we just need to know its length which is much easier to guess at
     // so, forgery = fakekeyofunknownlength + original message which we know + padding bytes + new message
     // then the SHA1 lib will add the real final padding for us, and we adjust the fake key's length until one passes the auth function.
+
     let key = (0..16).map(|_| thread_rng().gen::<u8>()).collect();
-    let mut s1km = ex28::Sha1KeyedMac::new(&key);
-    let orig_hash = s1km.gen(&orig_message);
-    println!("{:02x?}\n{}", orig_hash, orig_hash.len());
-
-    let mut registers = [0u32; 5];
-    for i in 0..5 {
-        for j in 0..4 {
-            registers[i] <<= 8;
-            registers[i] |= orig_hash[(4*i) + j] as u32
-        }
-    }
-    println!("{:02x?}", registers);
     
-    let mut hasher = ex28::Sha1KeyedMac::custom(registers, &key);
-    let mut new_data = ";admin=true".as_bytes().to_vec();
-    let new_hash = hasher.gen(&new_data);
-
     // let mut fake_pw_len = 0;
-    for i in 0..20 {
+    for i in 0..30 {
+        // get first hash with normally seeded SHA1
+        let mut s1km = ex28::Sha1KeyedMac::new(&key);
+        let orig_hash = s1km.gen(&orig_message);
+        // println!("{:02x?}\n{}", orig_hash, orig_hash.len());
+        // take those registers, insert them into our custom SHA1
+        let mut registers = [0u32; 5];
+        for i in 0..5 {
+            for j in 0..4 {
+                registers[i] <<= 8;
+                registers[i] |= orig_hash[(4*i) + j] as u32
+            }
+        }
+        println!("{:02x?}", registers);
+        let mut hasher = ex28::Sha1KeyedMac::custom(registers, &key);
+        // get the hash of the next block, our new data, letting the lib add padding
+        let mut new_data = ";admin=true".as_bytes().to_vec();
+        let new_hash = hasher.gen(&new_data);
+
         let mut padded = pad_message(&orig_message, i);
         let mut forgery = vec![0x41u8; i];
         forgery.append(&mut padded);
-        forgery.append(&mut new_data.clone());
+        forgery.append(&mut new_data);
         match hasher.authenticate(&new_hash, &forgery) {
             true => println!("forged!"),
             // false => utils::print_invalid_string(&forgery),
             false => (),
         }
     }
-
 }
