@@ -18,7 +18,7 @@ use rand::{Rng, thread_rng};
 use sha1::{Sha1, Digest};
 
 pub struct Sha1KeyedMac {
-	sha1: sha1::Sha1,
+	pub sha1: sha1::Sha1,
 	key: Vec<u8>
 }
 
@@ -43,13 +43,15 @@ impl Sha1KeyedMac {
 	pub fn gen(&mut self, message: &Vec<u8>) -> Vec<u8> {
 		let mut inp = self.key.clone();
 		inp.append(&mut message.clone());
-		// println!("input: {:02x?}", inp);
+		println!("generating: {:02x?}", inp);
 		self.sha1.input(inp);
 		self.sha1.clone().result().to_vec()
 	}
 
 	pub fn authenticate(&mut self, mac: &Vec<u8>, message: &Vec<u8>) -> bool {
-		self.gen(message) == *mac
+		let x = self.gen(message);
+		println!("hashed: {:02x?}\nmac:    {:02x?}", x, mac);
+		x == *mac
 	}
 }
 

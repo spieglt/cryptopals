@@ -38,6 +38,8 @@ For instance: Thai Duong and Juliano Rizzo, who got to this attack before we did
 use crate::utils;
 use crate::ex28;
 use rand::{Rng, thread_rng};
+// use sha1::digest::Input;
+use sha1::Digest;
 
 fn pad_message(message: &Vec<u8>, excess: usize) -> Vec<u8> {
     // message needs to be multiple of 512 bits/64 bytes
@@ -75,17 +77,17 @@ pub fn break_sha1_keyed_mac() {
 
     let key = (0..16).map(|_| thread_rng().gen::<u8>()).collect();
     
-    let mut s1km = ex28::Sha1KeyedMac::new(&key);
-    let orig_hash = s1km.gen(&orig_message);
+    // let mut s1km = ex28::Sha1KeyedMac::new(&key);
+    // let orig_hash = s1km.gen(&orig_message);
 
-    let padded = pad_message(&orig_message, 16);
-    // println!("my pad: {:02x?}", padded);
+    // let padded = pad_message(&orig_message, 16);
+    // println!("my pad:   {:02x?}", &padded[padded.len()-64..]);
 
-    for pw_len in 0..50 {
+    for pw_len in 16..17 {
         // get first hash with normally seeded SHA1
         let mut s1km = ex28::Sha1KeyedMac::new(&key);
         let orig_hash = s1km.gen(&orig_message);
-        // println!("{:02x?}", orig_hash);
+        println!("{:02x?}", orig_hash);
         // take those registers, insert them into our custom SHA1
         let mut registers = [0u32; 5];
         for i in 0..5 {
@@ -96,21 +98,28 @@ pub fn break_sha1_keyed_mac() {
                 // registers[i] |= (orig_hash[(4*i)+j] as u32) << 24;
             }
         }
-        // println!("{:02x?}", registers);
+        println!("{:02x?}", registers);
         let mut hasher = ex28::Sha1KeyedMac::custom(registers, &key);
         // get the hash of the next block, our new data, letting the lib add padding
         let mut new_data = ";admin=true".as_bytes().to_vec();
-        let new_hash = hasher.gen(&new_data);
+        
+        // don't want to use secret prefix here, just want to hash it
+        // println!("{:02x?}", hasher.sha1.h);
+        hasher.sha1.input(vec![0; 128]);
+        hasher.sha1.h = registers;
+        hasher.sha1.input(&new_data);
+        let new_hash = hasher.sha1.result().to_vec();
+        println!("{:02x?}", new_hash);
 
         let mut forgery = pad_message(&orig_message, pw_len);
         // let mut forgery = vec![0x41u8; i];
         // forgery.append(&mut padded);
         forgery.append(&mut new_data);
-        match hasher.authenticate(&new_hash, &forgery) {
+        let mut clean_hasher = ex28::Sha1KeyedMac::new(&key);
+        match clean_hasher.authenticate(&new_hash, &forgery) {
             true => println!("forged!"),
             // false => utils::print_invalid_string(&forgery),
             false => (),
         }
     }
 }
-
