@@ -75,51 +75,49 @@ pub fn break_sha1_keyed_mac() {
     // so, forgery = fakekeyofunknownlength + original message which we know + padding bytes + new message
     // then the SHA1 lib will add the real final padding for us, and we adjust the fake key's length until one passes the auth function.
 
+    // using key length 16 arbitrarily, should randomize this. anything shorter than 128 - orig_message.len() should be fine as it's written now.
     let key = (0..16).map(|_| thread_rng().gen::<u8>()).collect();
-    
-    // let mut s1km = ex28::Sha1KeyedMac::new(&key);
-    // let orig_hash = s1km.gen(&orig_message);
 
-    // let padded = pad_message(&orig_message, 16);
-    // println!("my pad:   {:02x?}", &padded[padded.len()-64..]);
+    // we (will pretend we) don't know the secret prefix length, so iterate over a range
+    for secret_prefix_len in 0..20 {
 
-    for pw_len in 16..17 {
-        // get first hash with normally seeded SHA1
+        // get first hash of secret prefix and message with normally seeded SHA1
         let mut s1km = ex28::Sha1KeyedMac::new(&key);
         let orig_hash = s1km.gen(&orig_message);
-        println!("{:02x?}", orig_hash);
-        // take those registers, insert them into our custom SHA1
+
+        // take those registers, turn them into 32-bit [a, b, c, d, e] values
         let mut registers = [0u32; 5];
         for i in 0..5 {
             for j in 0..4 {
                 registers[i] <<= 8;
                 registers[i] |= orig_hash[(4*i) + j] as u32
-                // registers[i] >>= 8;
-                // registers[i] |= (orig_hash[(4*i)+j] as u32) << 24;
             }
         }
-        println!("{:02x?}", registers);
-        let mut hasher = ex28::Sha1KeyedMac::custom(registers, &key);
-        // get the hash of the next block, our new data, letting the lib add padding
-        let mut new_data = ";admin=true".as_bytes().to_vec();
-        
-        // don't want to use secret prefix here, just want to hash it
-        // println!("{:02x?}", hasher.sha1.h);
-        hasher.sha1.input(vec![0; 128]);
-        hasher.sha1.h = registers;
-        hasher.sha1.input(&new_data);
-        let new_hash = hasher.sha1.result().to_vec();
-        println!("{:02x?}", new_hash);
 
-        let mut forgery = pad_message(&orig_message, pw_len);
-        // let mut forgery = vec![0x41u8; i];
-        // forgery.append(&mut padded);
-        forgery.append(&mut new_data);
+        // custom_hasher starts out normal, and needs to be fed the amount of data as (secret_key + message + padding)
+        // original message was 77 bytes, so more than 64 bytes/512 bits, so as long as the secret prefix isn't too long we'll be working with 3 blocks of 512 bits ultimately
+        let mut custom_hasher = ex28::Sha1KeyedMac::new(&key);
+        custom_hasher.sha1.input(vec![0; 128]); // two blocks worth of data, just zeroes, doesn't matter
+
+        // now we set the registers to what they were after hashing the real secret prefix + message
+        custom_hasher.sha1.h = registers;
+        
+        // now hash the new data. because we fed this SHA1 instance the 128 bytes of zeroes, the message length at the end of the padding will be correct
+        let mut new_message = ";admin=true".as_bytes().to_vec();
+        custom_hasher.sha1.input(&new_message);
+        let new_hash = custom_hasher.sha1.result().to_vec();
+
+        // construct "orig_message + padding + new_message"
+        let mut forgery = pad_message(&orig_message, secret_prefix_len);
+        forgery.append(&mut new_message);
         let mut clean_hasher = ex28::Sha1KeyedMac::new(&key);
+
+        // because we stole the state of the SHA1 machine after it hashed the first two 512-bit blocks with the secret prefix,
+        // and padded our forgery such that the boundary between the (secret prefix + orig_message + padding) and new_message is congruent to 512 bits,
+        // the "real", "server" hasher will result in our new_hash when it processes the forgery (if we've guessed the prefix length correctly).
         match clean_hasher.authenticate(&new_hash, &forgery) {
-            true => println!("forged!"),
-            // false => utils::print_invalid_string(&forgery),
-            false => (),
+            true => println!("len {}: forged!", secret_prefix_len),
+            false => println!("len {}: failed", secret_prefix_len),
         }
     }
 }

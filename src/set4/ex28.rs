@@ -31,26 +31,26 @@ impl Sha1KeyedMac {
 		}
 	}
 
-	pub fn custom(registers: [u32; 5], key: &Vec<u8>) -> Sha1KeyedMac {
-		let mut hasher = Sha1::new();
-		hasher.h = registers;
-		Sha1KeyedMac {
-			sha1: hasher,
-			key: key.clone(),
-		}		
-	}
+	// pub fn custom(registers: [u32; 5], key: &Vec<u8>) -> Sha1KeyedMac {
+	// 	let mut hasher = Sha1::new();
+	// 	hasher.h = registers;
+	// 	Sha1KeyedMac {
+	// 		sha1: hasher,
+	// 		key: key.clone(),
+	// 	}		
+	// }
 
 	pub fn gen(&mut self, message: &Vec<u8>) -> Vec<u8> {
 		let mut inp = self.key.clone();
 		inp.append(&mut message.clone());
-		println!("generating: {:02x?}", inp);
+		// println!("generating: {:02x?}", inp);
 		self.sha1.input(inp);
 		self.sha1.clone().result().to_vec()
 	}
 
 	pub fn authenticate(&mut self, mac: &Vec<u8>, message: &Vec<u8>) -> bool {
 		let x = self.gen(message);
-		println!("hashed: {:02x?}\nmac:    {:02x?}", x, mac);
+		// println!("hashed: {:02x?}\nmac:    {:02x?}", x, mac);
 		x == *mac
 	}
 }
