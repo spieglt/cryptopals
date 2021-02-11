@@ -19,12 +19,12 @@ use sha1::{Sha1, Digest};
 
 pub struct Sha1KeyedMac {
 	pub sha1: sha1::Sha1,
-	key: Vec<u8>
+	key: Vec<u8>,
 }
 
 impl Sha1KeyedMac {
 	pub fn new(key: &Vec<u8>) -> Sha1KeyedMac {
-		let mut hasher = Sha1::new();
+		let hasher = Sha1::new();
 		Sha1KeyedMac {
 			sha1: hasher,
 			key: key.clone(),

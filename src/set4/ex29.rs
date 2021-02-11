@@ -35,7 +35,7 @@ For instance: Thai Duong and Juliano Rizzo, who got to this attack before we did
 
 */
 
-use crate::utils;
+// use crate::utils;
 use crate::ex28;
 use rand::{Rng, thread_rng};
 // use sha1::digest::Input;

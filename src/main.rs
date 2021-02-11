@@ -225,10 +225,14 @@ fn set_four() {
 	// ex28
 	println!("\nex28:");
 	ex28::sha1_keyed_mac();
+
+	// ex29
+	println!("\nex29:");
+	ex29::break_sha1_keyed_mac();
 }
 
 fn current_exercise() {
-	// ex28
-	println!("\nex29:");
-	ex29::break_sha1_keyed_mac();
+	// ex30
+	println!("\nex30:");
+	ex30::md4_keyed_mac();
 }

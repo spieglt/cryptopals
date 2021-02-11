@@ -68,7 +68,7 @@ fn encrypt_random_string(key: &[u8]) -> (Vec<u8>, [u8; 16]) {
 		"MDAwMDA4b2xsaW4nIGluIG15IGZpdmUgcG9pbnQgb2g=",
 		"MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93",
 	];
-	let byte_vecs: Vec<Vec<u8>> = b64_strings.into_iter().map(
+	let byte_vecs: Vec<Vec<u8>> = b64_strings.iter().map(
 		|x| utils::base64_to_bytes(&x.to_string())
 	).collect();
 	
