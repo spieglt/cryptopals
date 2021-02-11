@@ -23,6 +23,13 @@ impl Md4KeyedMac {
             key: key.clone(),
         }
     }
+
+    pub fn gen(&mut self, message: &Vec<u8>) -> Vec<u8> {
+        let mut inp = self.key.clone();
+        inp.append(&mut message.clone());
+        self.md4.update(&inp);
+        self.md4.clone().finalize().to_vec()
+    }
 }
 
 pub fn md4_keyed_mac() {
